@@ -1,0 +1,9 @@
+# One entry per source document. PDFs are not committed; see docs/ARCHITECTURE.md §16.
+- source_key: CICT_AR_FY2025
+  issuer: CapitaLand Integrated Commercial Trust
+  ticker: C38U
+  fiscal_year: 2025
+  filed: 2026-03-20
+  file_name: CICT AR 2025_Final.pdf
+  url: https://links.sgx.com/1.0.0/corporate-announcements/PY3VCKEQ8KS6R716/9bf29441fda6effa721b7935e04152555dc1c9e360a924b91603a1bf79d4cdfe
+  sha256: null  # pinned on first fetch

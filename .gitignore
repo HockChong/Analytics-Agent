@@ -1,0 +1,9 @@
+# Source documents and derived data: copyrighted or regenerable (see docs/ARCHITECTURE.md §12)
+data/raw/
+data/parsed/
+warehouse/
+indexes/
+audit/
+__pycache__/
+.venv/
+.env
