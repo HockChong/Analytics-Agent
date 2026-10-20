@@ -560,3 +560,37 @@ Checked with `pdftotext`/`pdfinfo` before parsing. These affect design decisions
   "gearing" (the word "gearing" appears once, on page 86), and "Statement of Total Return"
   rather than "income statement". Include synonym questions in the test set (§10.1). They
   test where BM25 alone fails and dense retrieval should help.
+
+### 16.7 D1 result: MinerU 4.0.12 (`flash` tier) on PDF pages 4–10
+MinerU is now version 4, which differs from the version 2 layout this plan first assumed:
+- **CLI:** `mineru-kit parse <pdf> -o <dir> -f middle_json --tier <flash|basic|standard|advanced> -p 4-10`.
+  `flash` reads the PDF text layer and needs **no model download**. On CPU it ran at
+  about 2.5 pages/s, so the full report takes roughly 80 s. `basic` needs the ONNX models;
+  `standard` also needs a 1.2B VLM (GGUF, via llama.cpp). Both are downloaded from Hugging Face.
+- **Schema `docvortex.middle` v2.0:** `pages[].{page_idx, blocks[]}`, with `page_idx` 0-based
+  (PDF page = `page_idx + 1`). Block types seen: `text`, `paragraph_title`, `doc_title`,
+  `table`, `image`, `footer`, `page_number`, `page_footnote`, `equation`. Page sizes are
+  in `extensions.docvortex_layout.pages[].{width_pt, height_pt}`.
+- **Bboxes are normalised to 0–1** of the page: `points = bbox × (width_pt, height_pt)`.
+  Drawn on PDF page 5, the table bbox fits the table exactly
+  (`[652.4, 219.7, 1147.7, 515.2]` pt). See `scripts/draw_blocks.py`.
+- **`flash` tables are text, not structure.** `table_body.content` is whitespace-aligned
+  text, with no html and no cell bboxes. The **column header row (2021…2025) falls outside
+  the table bbox** and is emitted as separate bold `text` blocks just above it. The table
+  rebuild (§4.2) must therefore (a) attach header blocks that sit directly above the table
+  and line up with its columns, and (b) get cell bboxes from somewhere else.
+- **Chart labels are kept inside `image` blocks** (`image_body.content` = "1,619.2 …").
+  This makes the `CHART_LABEL` rule (§16.6) simple: do not create evidence from
+  `image_body.content` by default, and record them as rejected with that reason.
+- Running headers and footers already come typed (`footer`, `page_number`), so the
+  `BOILERPLATE` rule can use the type rather than counting repeats across pages.
+
+**Open decision: where cell bboxes come from.**
+1. `basic` / `standard` tier: the table model returns cell structure. This needs
+   `huggingface.co` allowed in the network settings, plus a model download (size unknown until fetched).
+2. `flash` + PDF text layer: inside each MinerU table bbox, read word boxes with
+   pdfplumber, cluster them into rows (y) and columns (x, using the header blocks as
+   anchors), and give each cell the union of its word boxes. This is exact for a
+   born-digital PDF, because the coordinates come from the PDF itself rather than a model.
+Recommendation: build option 2 first (deterministic, no GPU), then run `basic` on the same
+pages and compare. The comparison belongs in the README's parsing section.
