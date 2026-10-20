@@ -1,9 +1,34 @@
 # One entry per source document. PDFs are not committed; see docs/ARCHITECTURE.md §16.
+# All three files are attachments of the same SGX filing (CICT, 20 March 2026).
+# Only enabled sources are built; turn the others on one at a time to demo incremental refresh.
 - source_key: CICT_AR_FY2025
   issuer: CapitaLand Integrated Commercial Trust
   ticker: C38U
   fiscal_year: 2025
   filed: 2026-03-20
-  file_name: CICT AR 2025_Final.pdf
+  file_name: 2_CICT AR 2025_Final.pdf
   url: https://links.sgx.com/1.0.0/corporate-announcements/PY3VCKEQ8KS6R716/9bf29441fda6effa721b7935e04152555dc1c9e360a924b91603a1bf79d4cdfe
   sha256: null  # pinned on first fetch
+  enabled: true
+
+- source_key: CICT_IMR_2025
+  issuer: CapitaLand Integrated Commercial Trust (prepared by independent consultant)
+  ticker: C38U
+  fiscal_year: 2025
+  filed: 2026-03-20
+  file_name: 3_CICT Independent Market Review 2025.pdf
+  url: https://links.sgx.com/1.0.0/corporate-announcements/PY3VCKEQ8KS6R716/9bf29441fda6effa721b7935e04152555dc1c9e360a924b91603a1bf79d4cdfe
+  sha256: a79a1220ae503f164fb1e16e47f07d6623737e331a9b1ac2126b8b221811022a
+  pages: 40
+  enabled: false  # D10+: second document, incremental refresh demo
+
+- source_key: CICT_LTU_2026
+  issuer: CapitaLand Integrated Commercial Trust
+  ticker: C38U
+  fiscal_year: 2025
+  filed: 2026-03-20
+  file_name: 1_CICT Letter to Unitholders.pdf
+  url: https://links.sgx.com/1.0.0/corporate-announcements/PY3VCKEQ8KS6R716/9bf29441fda6effa721b7935e04152555dc1c9e360a924b91603a1bf79d4cdfe
+  sha256: 6eeb53058d27cde234fc828a7d89a13b63cb96fb3bd96ade397fb86250663c51
+  pages: 17
+  enabled: false  # optional: irrelevant-document robustness test
