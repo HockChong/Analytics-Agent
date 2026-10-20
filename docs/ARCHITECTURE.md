@@ -5,6 +5,8 @@
 > data-warehouse habits (layering like ODS/DWD/ADS, Write-Audit-Publish, incremental
 > refresh, agreed metric definitions) to every stage of an LLM pipeline.
 >
+> Data sources: see §16. Incremental refresh: see §4.5.
+>
 > Design rule: **every layer ends in a deterministic code gate.** Prompts can only ask
 > the model to behave. Gates enforce it.
 
@@ -58,13 +60,15 @@ Analytics-Agent/
 │   ├── pipeline.yaml          # thresholds, k, top_k, model ids, index_version
 │   └── permissions.yaml       # section/page → permission_level rules (simulated)
 ├── data/
-│   ├── raw/                   # source PDFs (SGX annual report)
-│   └── parsed/<doc_id>/       # MinerU output: middle.json, page images
+│   ├── sources.yaml           # source_key → url, sha256, fiscal_year (committed)
+│   ├── raw/                   # source PDFs, fetched by `make fetch` (gitignored)
+│   └── parsed/<file_sha256>/  # MinerU output cache: middle.json, page images (gitignored)
 ├── warehouse/                 # "the data warehouse"
-│   ├── staging/               # Write: newly parsed, not yet audited
-│   ├── evidence/              # Publish: evidence.parquet (current, served)
-│   ├── rejected/              # rejected.parquet with reject_reason, gate, run_id
-│   └── manifest.parquet       # doc_id, file_sha256, parsed_at, run_id, row counts
+│   ├── staging/<run_id>/      # Write: newly parsed, not yet audited
+│   ├── evidence/source_key=*/ # Publish: one partition per document (current, served)
+│   ├── rejected/source_key=*/ # rejected rows with reject_reason, gate, run_id
+│   ├── embed_cache.parquet    # (content_sha, embed_model) → vector
+│   └── manifest.parquet       # one row per source_key per run (see §4.5)
 ├── indexes/<index_version>/   # bm25.pkl, qdrant/ (or faiss), meta.json
 ├── src/finrag/
 │   ├── schemas.py             # pydantic contracts (one place for every data shape)
@@ -111,8 +115,9 @@ breaks loudly, the same way a column contract works between warehouse layers.
 
 | Field | Type | Notes |
 |---|---|---|
-| `evidence_id` | str | **Stable hash**: `sha1(doc_id, page, block_idx, row, col, content)[:12]`. See below. |
-| `doc_id` | str | `sha256(file)[:12]`, so a re-uploaded file with the same bytes gets the same id |
+| `evidence_id` | str | **Stable hash**: `sha1(source_key, page, block_idx, row, col, content)[:12]`. See below. |
+| `source_key` | str | Stable logical name of the document, from `data/sources.yaml` (e.g. `CICT_AR_FY2025`). Says *what* the document is |
+| `file_sha256` | str | Which *version* of the file the row came from. Do not use it as the document key: a revised PDF would become a new document and the old rows would never be removed (§4.5) |
 | `source_file` | str | |
 | `content` | str | For table rows: `"FY2024 \| Net profit \| S$12.34m"` |
 | `content_type` | enum | `paragraph`, `title`, `table_header`, `table_row`, `table_cell` |
@@ -195,13 +200,60 @@ Rule-based and kept to about 100 lines. Coverage does not need to be perfect.
   **the publish is aborted**. The previous `evidence/` stays live. This is WAP at batch level.
 
 ### 4.5 Write-Audit-Publish + incremental refresh (`publish.py`)
+
+**Document identity.** The manifest is keyed by `source_key` (what the document is), and
+`file_sha256` is its version. Detecting a change means comparing the stored hash with the
+current one for the same `source_key`.
+
+**Fingerprint.** Each manifest row stores the inputs that decide how much work a document
+needs. Different parts trigger different amounts of work:
+
+| What changed | Classification | Work needed |
+|---|---|---|
+| Not in manifest | `NEW` | Parse, evidence, gates, embed |
+| `file_sha256` | `CHANGED` | Parse, evidence, gates, embed only rows whose `content_sha` is not cached |
+| `parser_version` (`table_rebuild.py` etc.) | `CHANGED` | Rebuild evidence from the cached `middle.json`; MinerU does not re-run |
+| `permissions_hash` (`permissions.yaml`) | `RETAG` | Re-tag rows, update Qdrant payloads; **no re-embedding** |
+| Nothing | `UNCHANGED` | None |
+| In manifest, gone from `sources.yaml` | `REMOVED` | Drop partition, delete points, mark manifest row `retired` (not deleted) |
+| `embed_model` or chunking strategy | — | Not incremental: new `index_version`, full build |
+
+**Flow (`make build`):**
 ```
-write   → warehouse/staging/<run_id>/evidence.parquet, rejected.parquet
-audit   → Gate 2 + batch thresholds + row-count reconciliation (raw = evidence + rejected)
-publish → atomic rename into warehouse/evidence/, append to manifest
-index   → rebuild only the docs whose file_sha256 changed. Delete that doc_id's points,
-          then upsert. BM25 is rebuilt in full; at this corpus size that takes seconds.
+1. diff     sources.yaml + data/raw  vs  manifest.parquet  → classify each source_key
+            nothing to do → exit early (a second run must do zero work)
+2. parse    NEW/CHANGED only; skip MinerU if data/parsed/<file_sha256>/middle.json exists
+3. write    warehouse/staging/<run_id>/source_key=<k>/{evidence,rejected}.parquet
+4. audit    per document: Gate 2 + reject ratio + row reconciliation (raw = published + rejected)
+            a failing document is skipped and its previous version stays live;
+            the other documents in the run still publish
+5. publish  replace only that document's partition in evidence/ (atomic directory rename)
+6. index    dense:  look up (content_sha, embed_model) in embed_cache; embed only misses
+                    (a revised report that is 95% identical reuses 95% of its vectors)
+            qdrant: build the next collection, then switch the alias atomically
+            bm25:   full rebuild, because IDF depends on the whole corpus (seconds at this size)
+7. manifest append: source_key, file_sha256, parser_version, permissions_hash, status,
+            run_id, rows published/rejected, embeddings computed/reused, published_at
 ```
+
+**Why switch the index alias instead of editing in place.** Queries resolve evidence
+through the index payload. If the evidence table and the index changed at different
+moments, a query could cite a row that no longer exists. Switching the alias in one step
+means every query sees one consistent version, and `AnswerRecord.index_version` records
+which version served each answer.
+
+**Build log** (one line per run, like a warehouse batch report):
+```
+run_id=20261020-1432  NEW=1 CHANGED=0 RETAG=0 UNCHANGED=1 REMOVED=0
+published=1,842 rejected=97 (5.0%)  embeddings: computed=1,842 reused=0
+```
+
+**Tests that prove it (`tests/test_incremental.py`):**
+- *Idempotency:* build twice; the second run reports `0 parsed, 0 embedded, 0 published`.
+- *Isolation:* add the prior-year report; the FY2025 partition keeps its old `run_id`.
+- *Retag only:* change one permission rule; the run reports `0 embedded, N payloads updated`.
+- *Quarantine:* add a corrupted PDF; it fails audit, nothing else changes, and the reason is in `rejected/`.
+
 The row-count reconciliation (`raw_blocks == published + rejected`) is the line to show
 in an interview: no evidence disappears silently.
 
@@ -380,9 +432,13 @@ Each `AnswerRecord` stores `config_hash`, so every logged answer can be reproduc
   Either bake the weights in or cache them in a mounted volume. **MinerU is not included.**
 - `docker-compose.yml`: `app` (Streamlit) plus optional `qdrant`. Local-mode Qdrant
   inside the app also works and is simpler. A `langfuse` profile is separate.
-- `Makefile`: `make parse` (MinerU, on the host), `make build`, `make eval`, `make sweep`,
-  `make ablation`, `make app`.
-- Commit the parsed `middle.json` for the demo report, so a reviewer can run `make build && make app`.
+- `Makefile`: `make fetch` (download from `sources.yaml`, verify sha256), `make parse`
+  (MinerU, on the host), `make build`, `make eval`, `make sweep`, `make ablation`, `make app`.
+- Do **not** commit the PDFs or the full `middle.json`. Annual reports are public but
+  copyrighted, and `middle.json` contains most of the report's text. Commit
+  `data/sources.yaml` instead, so a reviewer runs `make fetch && make parse && make build && make app`.
+  For a no-GPU path, publish the parsed output as a GitHub release asset or keep it local,
+  depending on how comfortable you are redistributing it.
 
 ---
 
@@ -427,8 +483,56 @@ into the test set, the calibration and the README.
 | ODS / DWD / DWS / ADS layering | `data/parsed` (ODS) → `warehouse/evidence` (DWD) → `indexes/` (DWS) → `AnswerRecord` (ADS) |
 | Write-Audit-Publish | `staging/` → Gate 2 + batch reject ratio + row reconciliation → atomic publish |
 | Row-level quality rules | Gate 1 rules, with `rejected.parquet` holding the reasons |
-| Incremental refresh | `manifest.parquet` file hash → re-index only the changed `doc_id` |
+| Incremental refresh | `manifest.parquet` fingerprint per `source_key` → rebuild only the changed partition, reuse cached embeddings |
 | Data dictionary / agreed metric definitions | `schemas.py` contracts; numeric check uses format-only normalisation |
 | Lineage | `run_id` on every row, plus `index_version` and `config_hash` on every answer |
 | UAT | 60-question hand-labelled set, metric acceptance thresholds |
 | Audit logging | `audit_log.jsonl` + Langfuse traces + refusal stage on every refusal |
+
+---
+
+## 16. Data sources
+
+### 16.1 Main corpus: one born-digital SGX annual report
+- **Where:** SGXNet company announcements (sgx.com → Securities → Company Announcements,
+  category "Annual Report") or the company's investor relations page.
+- **Which:** start with an **S-REIT** (e.g. CapitaLand Integrated Commercial Trust,
+  Mapletree Pan Asia Commercial Trust, Frasers Centrepoint Trust). It is about 150–250 pages,
+  has many regular tables (DPU, net property income, gearing, valuation, lease expiry,
+  top tenants) and defines its metrics explicitly. Leave banks (DBS, OCBC, UOB) for
+  later: multi-level merged headers and tables that run across pages.
+- **Check before choosing:**
+  1. Born-digital, not scanned (text is selectable), so MinerU does not need OCR.
+  2. Key tables are text, not images. Try selecting a number on the financial highlights page.
+  3. Use the latest full year (FY2025), so questions about future years are unanswerable.
+
+### 16.2 Second document (D10+, pick one)
+| Goal | Source | Why |
+|---|---|---|
+| Incremental refresh demo (§4.5) | Same company's prior-year report | Adds one `NEW` partition and leaves FY2025 alone; enables cross-year and "wrong year" near-miss questions |
+| Chinese + English (justifies BGE-M3) | HKEX bilingual annual report (hkexnews.hk) | SGX reports are almost all English |
+| Check the method on US filings | 10-K from SEC EDGAR | Clean Item 1A / Item 7 structure |
+
+### 16.3 External sanity check (optional)
+Run 20–30 questions from the open **FinanceBench** sample (Patronus AI; public 10-Ks with
+evidence pages) alongside the hand-built 60, to show the metrics are not only tuned to
+self-written questions. FinQA and TAT-QA start from pre-extracted text and tables, so
+they do not test the parsing layer.
+
+### 16.4 Permission labels
+All annual report content is public, so `permission_level` is simulated by section in
+`config/permissions.yaml`. For example, financial highlights and the chair's statement
+are public, risk management and remuneration are internal, and related-party transactions
+are confidential. The README states that the labels are simulated.
+
+### 16.5 `data/sources.yaml`
+```yaml
+- source_key: CICT_AR_FY2025
+  issuer: CapitaLand Integrated Commercial Trust
+  fiscal_year: 2025
+  url: <link from SGXNet>
+  sha256: <filled in by `make fetch` on first download, then pinned>
+```
+`make fetch` downloads each file and checks its hash against the pinned value. A mismatch
+stops the build: the issuer re-published the file, and the change should go through the
+`CHANGED` path in §4.5 on purpose, not by accident.
