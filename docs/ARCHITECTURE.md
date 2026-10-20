@@ -536,3 +536,27 @@ are confidential. The README states that the labels are simulated.
 `make fetch` downloads each file and checks its hash against the pinned value. A mismatch
 stops the build: the issuer re-published the file, and the change should go through the
 `CHANGED` path in §4.5 on purpose, not by accident.
+
+### 16.6 Findings from the first look at CICT AR FY2025
+Checked with `pdftotext`/`pdfinfo` before parsing. These affect design decisions:
+- **199 PDF pages, born-digital, text is selectable throughout.** Only pages 1, 196 and
+  197 have almost no text (cover and back matter).
+- **17 pages are two-page spreads** (1190.55 × 841.89 pt; PDF pages 4–7, 14–17, 22, 109,
+  176–182). PDF page 5, for example, holds printed pages 4 and 5. Therefore:
+  `page_number` is always the **PDF page index** (that is what bboxes, page rendering and
+  gold labels use). Add `printed_page` only as a display field, and read the page size per
+  page, never assume A4.
+- **Charts carry their numbers as text.** The Financial Highlights spread (PDF page 5)
+  has bar-chart labels (`1,619.2`, `1,586.3`, …) next to the five-year table with the same
+  values. MinerU may emit these labels as loose text blocks. Expect duplicates that compete
+  with the table rows in retrieval. Handle them with a Gate 1 rule (`CHART_LABEL`: a
+  block made almost only of numbers inside an image or chart region), and test it on this page.
+- **Good first table for D1–D2:** the five-year Key Financial Indicators table on PDF
+  page 5 (DPU 11.58¢, aggregate leverage 38.6%, NPI S$1,189.7m, distributable income
+  S$860.9m). The same figures appear again on PDF pages 4, 10 and 25/26 and in the financial
+  statements (pages 106–107), which makes it a ready-made test of citing the right page
+  when several pages agree.
+- The terms differ from generic finance terms: the report says "aggregate leverage", not
+  "gearing" (the word "gearing" appears once, on page 86), and "Statement of Total Return"
+  rather than "income statement". Include synonym questions in the test set (§10.1). They
+  test where BM25 alone fails and dense retrieval should help.
