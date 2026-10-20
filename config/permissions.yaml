@@ -1,0 +1,14 @@
+# Simulated permission labels (docs/ARCHITECTURE.md §16.4). The whole annual report is
+# public; these rules exist to exercise permission filtering, not to reflect real access.
+# Rules match section_title ("Chapter > heading"); the first match wins.
+# If no rule matches and `default` is unset, Gate 2 rejects the row (NO_PERMISSION_TAG).
+default: public
+rules:
+  - match: "(?i)related part|interested person"
+    level: confidential
+  - match: "(?i)^Additional Information"
+    level: confidential
+  - match: "(?i)^Risk Management"
+    level: internal
+  - match: "(?i)^Corporate Governance"
+    level: internal

@@ -1,0 +1,10 @@
+mineru==4.0.12
+pdfplumber>=0.11
+pydantic>=2.7
+pandas>=2.2
+pyarrow>=16
+pyyaml>=6
+beautifulsoup4>=4.12
+
+[dev]
+pytest>=8

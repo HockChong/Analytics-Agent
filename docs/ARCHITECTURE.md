@@ -594,3 +594,62 @@ MinerU is now version 4, which differs from the version 2 layout this plan first
    born-digital PDF, because the coordinates come from the PDF itself rather than a model.
 Recommendation: build option 2 first (deterministic, no GPU), then run `basic` on the same
 pages and compare. The comparison belongs in the README's parsing section.
+
+### 16.8 D2–D3 result: table rebuild, evidence table, gates, publish
+Run with `make fetch && make build`. Code: `src/finrag/{parse,evidence}`; tests: `make test`
+(18 tests; those that need the PDF skip until `make fetch`).
+
+**Table rebuild uses the PDF text layer, not MinerU's table content** (decision from §16.7).
+On real pages MinerU's flash table output was unreliable in three ways. The header row sat
+outside the bbox (page 5). The bbox covered only the lower half of the values, with the
+labels and upper rows split into a `code` block and loose `text` blocks (page 106). And
+cells were merged ("333,300227,200", page 45). `table_rebuild.py` therefore uses the MinerU
+bbox only as a **seed**:
+1. Cluster the numeric words inside the seed by right edge into columns (figures are right-aligned).
+2. Grow the region line by line over the text layer. Keep lines whose value-area words are
+   mostly values, row-label lines and (going up) header lines; stop at running text.
+3. Map header lines onto the columns. A group header ("Group", "Trust") with fewer
+   phrases than columns is inherited by each column under it: the merged-cell rule.
+4. Classify each body line as a data row, a section header (bold or coloured, no values),
+   a wrapped label, a parent of "– sub item" rows, or a subtotal (values, no label).
+   Note numbers ("Gross revenue  21") become "(Note 21)"; footnote markers are dropped.
+5. **Self-check:** if fewer than 60% of rows have a label and a named column, the
+   structure is discarded and the table falls back to its html key/value rows or plain
+   text. A wrong table is worse than text, because the numeric check would trust it.
+
+Coverage on CICT AR FY2025 (123 tables after merging): 48 `ok`, 33 `partial` (some words
+not placed in a column), 27 `html_fallback`, 15 `text_only`, 0 `failed`. That is **66%
+fully structured**, against the 70% that §4.2 said would be enough. The `partial` and
+fallback tables are where the eval should be expected to show citation misses.
+
+**Evidence build (first run, 5,496 raw blocks):**
+
+| Outcome | Blocks | Notes |
+|---|---|---|
+| published | 2,978 | → 4,030 evidence rows: 2,059 paragraph, 1,156 table_row (one bbox per cell), 731 title, 66 footnote, 18 table_text |
+| merged | 954 | loose blocks consumed into a rebuilt table |
+| rejected | 1,564 | BOILERPLATE 616 · ORPHAN_NUMBER 584 · EMPTY_CONTENT 152 · FRAGMENT 103 · IMAGE_TEXT 95 · CHART_LABEL 14 |
+
+Reconciliation `raw = published + rejected + merged` holds, and the build raises an error
+if any block has no outcome. The quality reject ratio is 2.8% (limit 15%); boilerplate,
+chart labels and orphan numbers do not count towards it. **`ORPHAN_NUMBER` (584) is the
+parse-coverage figure to watch**: table values that ended up outside any rebuilt table,
+mostly on pages where MinerU found no table at all.
+
+**Section titles** come from the PDF's bookmarks (38 chapters) plus the latest heading:
+`"Statement of Total Return"`, `"Property Details > Bugis Junction"`. A table takes the
+heading that sits above it and overlaps it horizontally. The nearest heading in reading
+order can be a neighbouring chart title. Permission labels from `config/permissions.yaml`:
+3,462 public, 511 internal, 57 confidential.
+
+**Incremental refresh, as built (differences from §4.5):**
+- `parser_version` is a hash of the parse and evidence code, not a hand-maintained
+  number. During D3 a logic change shipped while the constant stayed the same, and the run
+  reported UNCHANGED. Hashing the code makes that impossible.
+- A pinned-hash mismatch (`HASH_MISMATCH`) or a missing file (`MISSING`) is reported as an
+  error, and the live partition stays as it was.
+- Publishing replaces one Parquet file per partition with `os.replace`, which is atomic.
+- Checked by `tests/test_publish.py`: NEW → UNCHANGED (zero work) → RETAG (no rebuild) →
+  HASH_MISMATCH (live data unchanged) → REMOVED (partition retired). Adding the market
+  review as a second document parsed and published only that document, and the annual
+  report's rows kept their original `run_id`.

@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: finrag
+Version: 0.1.0
+Summary: Gated financial document pipeline: parse, evidence, retrieve, generate, verify, audit
+Requires-Python: >=3.11
+Requires-Dist: mineru==4.0.12
+Requires-Dist: pdfplumber>=0.11
+Requires-Dist: pydantic>=2.7
+Requires-Dist: pandas>=2.2
+Requires-Dist: pyarrow>=16
+Requires-Dist: pyyaml>=6
+Requires-Dist: beautifulsoup4>=4.12
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
