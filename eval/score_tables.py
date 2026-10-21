@@ -44,7 +44,7 @@ def main() -> None:
                     help="preview on the unchecked draft (results are not valid for the README)")
     args = ap.parse_args()
 
-    gold = json.loads(Path(GOLD).read_text())
+    gold = json.loads(Path(GOLD).read_text(encoding="utf-8"))
     tables = [t for t in gold if t["verified"] or args.include_unverified]
     if not tables:
         raise SystemExit(f"no verified tables in {GOLD}: check them against the PDF and set verified: true")
@@ -79,7 +79,7 @@ def main() -> None:
     report = "\n".join(lines) + "\n"
     out = Path("eval/results/table_extractors.md")
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(report)
+    out.write_text(report, encoding="utf-8")
     print(report)
 
 

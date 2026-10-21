@@ -59,7 +59,7 @@ def _block_text_and_html(block: dict) -> tuple[str, str | None]:
 
 
 def load_middle(path: str | Path) -> dict:
-    middle = json.loads(Path(path).read_text())
+    middle = json.loads(Path(path).read_text(encoding="utf-8"))
     found = (middle.get("schema"), middle.get("schema_version"))
     if found != SUPPORTED_SCHEMA:
         raise ValueError(f"unsupported middle.json schema {found}, expected {SUPPORTED_SCHEMA}")

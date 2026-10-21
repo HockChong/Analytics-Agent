@@ -18,7 +18,7 @@ DPI = 150
 
 
 def main(middle_path, pdf_path, pdf_page, out_path):
-    middle = json.load(open(middle_path))
+    middle = json.load(open(middle_path, encoding="utf-8"))
     page_idx = pdf_page - 1  # middle.json page_idx is 0-based
     page = next(p for p in middle["pages"] if p["page_idx"] == page_idx)
     size = next(

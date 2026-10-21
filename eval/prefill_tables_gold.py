@@ -95,11 +95,11 @@ def main() -> None:
         draw(page_no, cells, region, image)
         statuses = {n: r.status for n, (r, _) in results.items()}
         gold.append({"table": ref, "page": page_no, "title": title, "verified": False, "notes": "",
-                     "extractor_status": statuses, "check_image": str(image),
+                     "extractor_status": statuses, "check_image": image.as_posix(),
                      "cells": [{"id": i, **c} for i, c in enumerate(cells)]})
         n_dis = sum(c["check"] != "agree" for c in cells)
         print(f"{ref:<9} {len(cells):>3} cells  {n_dis:>3} to check first  {statuses}  -> {image}")
-    Path(GOLD).write_text(json.dumps(gold, indent=1, ensure_ascii=False) + "\n")
+    Path(GOLD).write_text(json.dumps(gold, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"wrote {GOLD}")
 
 

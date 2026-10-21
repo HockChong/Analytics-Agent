@@ -15,7 +15,7 @@ from finrag.evidence.publish import sha256_file
 
 def main(sources_path: str = "data/sources.yaml") -> int:
     bad = 0
-    for s in yaml.safe_load(open(sources_path)):
+    for s in yaml.safe_load(open(sources_path, encoding="utf-8")):
         path = Path(s["local_path"])
         if not path.exists():
             path.parent.mkdir(parents=True, exist_ok=True)

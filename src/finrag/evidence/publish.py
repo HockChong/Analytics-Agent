@@ -176,10 +176,10 @@ def stage_and_publish(wh: Warehouse, run_id: str, key: str, evidence_df: pd.Data
 
 
 def run(config_path: str = "config/pipeline.yaml", run_id: str | None = None) -> dict:
-    cfg = yaml.safe_load(open(config_path))
+    cfg = yaml.safe_load(open(config_path, encoding="utf-8"))
     paths = cfg["paths"]
-    sources = yaml.safe_load(open(paths["sources"]))
-    perm_text = Path(paths["permissions"]).read_text()
+    sources = yaml.safe_load(open(paths["sources"], encoding="utf-8"))
+    perm_text = Path(paths["permissions"]).read_text(encoding="utf-8")
     permissions = yaml.safe_load(perm_text)
     perm_hash = hashlib.sha256(perm_text.encode()).hexdigest()[:16]
     extractor = cfg["parse"].get("table_extractor", "textlayer")
