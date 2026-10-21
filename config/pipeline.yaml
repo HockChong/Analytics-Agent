@@ -1,8 +1,9 @@
 paths:
   sources: data/sources.yaml
   raw_dir: data/raw
-  parsed_dir: data/parsed
+  parsed_dir: data/parsed  # <file_sha256>/<tier>/middle.json
   warehouse: warehouse
+  indexes: indexes  # <strategy>/<build_id>/ + <strategy>/CURRENT (docs/ARCHITECTURE.md §4.6)
   permissions: config/permissions.yaml
 parse:
   tier: flash  # basic/standard need model downloads (docs/ARCHITECTURE.md §16.7)
@@ -11,3 +12,8 @@ evidence:
   # Share of blocks rejected for quality reasons (schemas.QUALITY_REASONS) above which a
   # document is not published. Boilerplate and chart labels do not count.
   max_reject_ratio: 0.15
+  # Share of printed table values left outside any rebuilt table (ORPHAN_NUMBER). Above
+  # this, the tables were not found and the document is not published (§4.4).
+  max_orphan_ratio: 0.35
+index:
+  strategy: table_aware  # table_aware | fixed512 (§10.3); one snapshot series per strategy

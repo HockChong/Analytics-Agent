@@ -1,14 +1,27 @@
 # Simulated permission labels (docs/ARCHITECTURE.md §16.4). The whole annual report is
 # public; these rules exist to exercise permission filtering, not to reflect real access.
-# Rules match section_title ("Chapter > heading"); the first match wins.
-# If no rule matches and `default` is unset, Gate 2 rejects the row (NO_PERMISSION_TAG).
-default: public
+#
+# A rule matches on `section` (the inherited "Chapter > heading") or on `content` (the row
+# text). Every matching rule votes and the most restrictive level wins, so a related-party
+# paragraph under a public heading is still confidential. A row no rule matches gets
+# `default`, which must not be public (§4.4): an unknown chapter is never shown to the public.
+default: internal
+
+# Which levels each user role may retrieve (§5.1). Applied before ranking, in BM25 and dense.
+roles:
+  public: [public]
+  internal: [public, internal]
+  confidential: [public, internal, confidential]
+
 rules:
-  - match: "(?i)related part|interested person"
-    level: confidential
-  - match: "(?i)^Additional Information"
-    level: confidential
-  - match: "(?i)^Risk Management"
+  # Public chapters, by name. A new or renamed chapter falls through to the default.
+  - section: "^(2025 Highlights|About Us|Board of Directors|Business Model|Capital Management|Chairman and CEO Message|Contents|Corporate Information|Cover|Distribution Statement|Financial Highlights|Financial Review|Financial Statements|Independent Auditor.s Report|Investor Relations|Management Team|Notes to the Financial Statements|Operations Review|Portfolio Statement|Portfolio Valuation|Property Details|Property Portfolio|Report of the Trustee|Statement by the Manager|Statement of Cash Flows|Statement of Total Return|Statements of Financial Position|Statements of Movements in Unitholders. Funds|Statistics of Unitholdings|Sustainability Management|Trading Performance|Trust Structure|Value Creation)\\b"
+    level: public
+  - section: "(?i)^(Risk Management|Corporate Governance)"
     level: internal
-  - match: "(?i)^Corporate Governance"
-    level: internal
+  - section: "(?i)related part|interested person|^Additional Information"
+    level: confidential
+  # Content rules catch facts whose heading was inherited wrongly (p161: the related-party
+  # note sits under "27 Earnings Per Unit") or that are repeated under a public heading (p149).
+  - content: "(?i)related part|interested person"
+    level: confidential

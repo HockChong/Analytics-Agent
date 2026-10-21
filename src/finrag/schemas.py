@@ -62,6 +62,16 @@ class Cell(BaseModel):
     column: str  # header path, e.g. "2025" or "Group | 2025 | S$'000"
     value: str  # exactly as printed, e.g. "1,189.7" or "(7,180)"
     bbox: BBox
+    scale: Optional[float] = None  # 1e3 for "'000", 1e6 for "million"; None when no unit was found
+
+
+class RowFlag(str, Enum):
+    """Why a table row's numbers must not be trusted by the numeric check (§7.2)."""
+    TABLE_NOT_OK = "TABLE_NOT_OK"  # the table rebuilt as partial or html_fallback
+    GENERIC_COLUMN = "GENERIC_COLUMN"  # a cell has no named column ("value", "col3")
+    MULTI_VALUE = "MULTI_VALUE"  # a cell holds more than one number
+    NON_NUMERIC = "NON_NUMERIC"  # a cell holds words where a value should be
+    TEXT_MISMATCH = "TEXT_MISMATCH"  # the text layer inside the cell bbox differs from the value
 
 
 class RawBlock(BaseModel):
@@ -90,13 +100,16 @@ class EvidenceRow(BaseModel):
     page_height: float = Field(gt=0)
     bbox: BBox
     table_id: Optional[str] = None
+    table_status: Optional[str] = None  # ok | partial | html_fallback | text_only, for table rows and text
     cells: Optional[list[Cell]] = None
+    row_flags: list[RowFlag] = Field(default_factory=list)  # empty = the numeric check may trust this row
     section_title: str
     permission_level: Permission
     numeric_values: list[str] = Field(default_factory=list)
     parser: str
     raw_refs: list[str]
-    run_id: str
+    run_id: str  # the build run that produced the content (lineage)
+    tag_run_id: str  # the run that last set permission_level (a RETAG changes this, not run_id)
     content_sha: str
 
     @field_validator("content")

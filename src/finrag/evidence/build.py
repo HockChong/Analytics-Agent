@@ -14,6 +14,7 @@ from pathlib import Path
 import pdfplumber
 import pypdfium2 as pdfium
 
+from finrag import numbers
 from finrag.evidence import gates
 from finrag.parse.mineru_reader import iter_blocks
 from finrag.parse.table_rebuild import TableResult, rebuild_table
@@ -23,7 +24,8 @@ def _code_version() -> str:
     """Hash of the code that turns middle.json into evidence. Any change to it makes the
     next build classify documents as CHANGED, so nobody has to remember to bump a number."""
     root = Path(__file__).resolve().parents[1]
-    files = sorted([*root.glob("parse/*.py"), root / "evidence/build.py", root / "evidence/gates.py", root / "schemas.py"])
+    files = sorted([*root.glob("parse/*.py"), root / "evidence/build.py", root / "evidence/gates.py",
+                    root / "schemas.py", root / "numbers.py"])
     h = hashlib.sha256()
     for f in files:
         h.update(f.name.encode() + f.read_bytes())
@@ -113,16 +115,17 @@ def build_document(source: Source, middle: dict, permissions: dict, run_id: str,
         outcomes.setdefault(block.raw_ref, "rejected")
 
     def emit(block: RawBlock, content: str, ctype: ContentType, section: str, bbox, idx: int = 0,
-             table_id=None, cells=None, numeric=None, extra_refs=()):
+             table_id=None, table_status=None, cells=None, flags=(), numeric=None, extra_refs=()):
         data = dict(
             evidence_id=sha1_hex(source.source_key, block.raw_ref, idx, content),
             source_key=source.source_key, file_sha256=source.file_sha256, source_file=source.source_file,
             content=content, content_type=ctype, page_number=block.page_number,
             page_width=block.page_width, page_height=block.page_height, bbox=bbox,
-            table_id=table_id, cells=cells, section_title=section,
-            permission_level=gates.resolve_permission(section, permissions),
+            table_id=table_id, table_status=table_status, cells=cells, row_flags=list(flags),
+            section_title=section,
+            permission_level=gates.resolve_permission(section, content, permissions),
             numeric_values=numeric if numeric is not None else gates.NUMBER_RE.findall(content),
-            parser=PARSER_VERSION, raw_refs=[block.raw_ref, *extra_refs], run_id=run_id,
+            parser=PARSER_VERSION, raw_refs=[block.raw_ref, *extra_refs], run_id=run_id, tag_run_id=run_id,
             content_sha=_content_sha(content),
         )
         row, reason, detail = gates.validate_row(data)
@@ -171,7 +174,8 @@ def build_document(source: Source, middle: dict, permissions: dict, run_id: str,
                     # The heading in reading order may belong to a neighbouring chart or
                     # column; a table's heading must sit above it and overlap it.
                     own = _heading_above(b, [x for x in page_blocks if x.raw_ref not in consumed])
-                    _emit_table(b, tables[b.raw_ref], f"{chapter} > {own}" if own else chapter, emit, reject)
+                    _emit_table(b, tables[b.raw_ref], f"{chapter} > {own}" if own else chapter, emit, reject,
+                                pdf.pages[page_no - 1])
                     continue
                 if (reason := gates.check_text(b.text)):
                     reject(b, reason)
@@ -227,17 +231,45 @@ def _heading_above(table: RawBlock, page_blocks: list[RawBlock]) -> str:
     return " ".join(best.text.split()) if best else ""
 
 
-def _emit_table(block: RawBlock, result: TableResult, section: str, emit, reject) -> None:
+def _inside(char: dict, bbox) -> bool:
+    x0, y0, x1, y1 = bbox
+    return (x0 - 0.5 <= (char["x0"] + char["x1"]) / 2 <= x1 + 0.5
+            and y0 - 0.5 <= (char["top"] + char["bottom"]) / 2 <= y1 + 0.5)
+
+
+def _reread(chars: list[dict], bbox) -> str:
+    """Text-layer characters whose centre lies inside a cell bbox, in reading order."""
+    inside = [c for c in chars if _inside(c, bbox)]
+    return "".join(c["text"] for c in sorted(inside, key=lambda c: (round(c["top"]), c["x0"])))
+
+
+def _cell_scale(row, cell, caption: str, section: str):
+    # The narrowest text that names a unit wins: a row printed in "'000 units" under a
+    # "$'000" column is a count, not dollars.
+    for text in (row.label, row.section, cell.column, caption, section):
+        if text and (s := numbers.scale_of(text)) is not None:
+            return float(s)
+    return None
+
+
+def _emit_table(block: RawBlock, result: TableResult, section: str, emit, reject, page) -> None:
     table_id = sha1_hex("table", block.raw_ref)
     if result.status == "failed":
         reject(block, RejectReason.TABLE_UNRECOVERABLE, result.detail)
         return
     if result.status == "text_only":
-        emit(block, " ".join(result.text.split()), ContentType.table_text, section, block.bbox, table_id=table_id)
+        emit(block, " ".join(result.text.split()), ContentType.table_text, section, block.bbox, table_id=table_id,
+             table_status=result.status)
         return
+    # html_fallback cells carry the whole table bbox, so there is nothing to re-read.
+    own_boxes = result.status in ("ok", "partial")
     for i, row in enumerate(result.rows):
         parts = [p for p in (result.caption, row.section, row.label) if p]
         parts += [f"{c.column}: {c.value}" for c in row.cells]
+        cells = [c.model_copy(update={"scale": _cell_scale(row, c, result.caption, section)}) for c in row.cells]
+        chars = [c for c in page.chars if _inside(c, row.bbox)] if own_boxes else []
+        reread = [_reread(chars, c.bbox) if own_boxes else None for c in cells]
         emit(block, " | ".join(parts), ContentType.table_row, section, row.bbox, idx=i, table_id=table_id,
-             cells=[c.model_dump() for c in row.cells], numeric=[c.value for c in row.cells],
+             table_status=result.status, cells=[c.model_dump() for c in cells],
+             flags=gates.row_flags(result.status, cells, reread), numeric=[c.value for c in row.cells],
              extra_refs=result.consumed_refs)

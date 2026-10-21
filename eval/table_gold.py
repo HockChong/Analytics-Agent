@@ -11,7 +11,7 @@ from finrag.parse.mineru_reader import iter_blocks, load_middle
 from finrag.parse.table_rebuild import rebuild_table
 
 PDF = "data/raw/2_CICT_AR_2025_Final.pdf"
-MIDDLE = "data/parsed/03b4ffd55c33cce440cdf5ed27143f61473a8f874d97b41d5e1d6c01217e7ad0/middle.json"
+MIDDLE = "data/parsed/03b4ffd55c33cce440cdf5ed27143f61473a8f874d97b41d5e1d6c01217e7ad0/flash/middle.json"
 GOLD = "eval/tables_gold.json"
 
 # The 10 benchmark tables: easy and hard, including ones where the extractors disagree.

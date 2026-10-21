@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(.venv\\\\Scripts\\\\python.exe -m pip install -q -e \".[dev,extractors]\")",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe -c \"import camelot; print\\(camelot.__version__\\)\")"
+    ]
+  }
+}

@@ -3,15 +3,14 @@
     python -m finrag.evidence.publish [--config config/pipeline.yaml]
 
 1. diff     sources.yaml + files on disk vs manifest → NEW | CHANGED | RETAG | UNCHANGED | REMOVED
-2. parse    NEW/CHANGED only; MinerU output is cached by file hash
+2. parse    NEW/CHANGED only; MinerU output is cached by file hash and tier
 3. write    warehouse/staging/<run_id>/source_key=<k>/{evidence,rejected}.parquet
-4. audit    per document: reconciliation + quality reject ratio; a failing document is
-            skipped and its previous version stays live
-5. publish  os.replace each staged file into warehouse/{evidence,rejected}/source_key=<k>/
-            (an atomic rename per file)
-6. manifest one row per document that had work, with the counts
-
-Index building (BM25 / dense) comes in D4 and will read the published partitions.
+4. audit    per document: reconciliation + quality reject ratio + orphan value ratio; a
+            failing document is skipped and its previous version stays live
+5. publish  os.replace each staged file into warehouse/{evidence,rejected}/source_key=<k>/,
+            then append that document's manifest row
+6. snapshot if anything changed: write indexes/<strategy>/<run_id>/ from the live partitions
+            and swap the CURRENT pointer (finrag.index.snapshot). Queries read only that.
 """
 from __future__ import annotations
 
@@ -32,13 +31,14 @@ import yaml
 
 from finrag.evidence import gates
 from finrag.evidence.build import PARSER_VERSION, BuildResult, Source, build_document
+from finrag.index import snapshot
 from finrag.parse.mineru_reader import load_middle
-from finrag.schemas import EvidenceRow, RejectedRow, RejectReason
+from finrag.schemas import ContentType, EvidenceRow, RejectedRow, RejectReason
 
 MANIFEST_COLUMNS = [
     "run_id", "source_key", "status", "action", "file_sha256", "parser_version", "permissions_hash",
     "raw_blocks", "published_blocks", "rejected_blocks", "merged_blocks", "evidence_rows",
-    "rejected_rows", "quality_reject_ratio", "detail", "finished_at",
+    "rejected_rows", "quality_reject_ratio", "orphan_value_ratio", "detail", "finished_at",
 ]
 
 
@@ -59,8 +59,8 @@ def sha256_file(path: str | Path) -> str:
     return h.hexdigest()
 
 
-def parser_version(table_extractor: str = "textlayer") -> str:
-    return f"{PARSER_VERSION}+{table_extractor}+mineru-{metadata.version('mineru')}"
+def parser_version(table_extractor: str = "textlayer", tier: str = "flash") -> str:
+    return f"{PARSER_VERSION}+{table_extractor}+mineru-{metadata.version('mineru')}-{tier}"
 
 
 class Warehouse:
@@ -127,7 +127,7 @@ def plan_runs(sources: list[dict], live: dict[str, dict], perm_hash: str, pversi
 
 # ---------------------------------------------------------------- 2. parse
 def ensure_parsed(pdf_path: str, sha: str, parsed_dir: Path, tier: str) -> tuple[Path, bool]:
-    out_dir = parsed_dir / sha
+    out_dir = parsed_dir / sha / tier  # a tier switch must not reuse another tier's output
     middle = out_dir / "middle.json"
     if middle.exists():
         return middle, False
@@ -145,19 +145,24 @@ def _rows_df(rows: list[EvidenceRow] | list[RejectedRow]) -> pd.DataFrame:
     return pd.DataFrame([r.model_dump(mode="json") for r in rows])
 
 
-def audit(result: BuildResult, max_ratio: float) -> tuple[bool, float, str]:
+def audit(result: BuildResult, max_ratio: float, max_orphan_ratio: float) -> tuple[bool, float, float, str]:
     s = result.stats
     if s["raw_blocks"] != s["published_blocks"] + s["rejected_blocks"] + s["merged_blocks"]:
-        return False, 0.0, "reconciliation failed: raw != published + rejected + merged"
+        return False, 0.0, 0.0, "reconciliation failed: raw != published + rejected + merged"
     # Count each rejected block once, by its first reason.
     first_reason: dict[str, RejectReason] = {}
     for r in result.rejected:
         first_reason.setdefault(r.raw_refs[0], r.reject_reason)
     rejected_refs = {ref for ref, o in result.outcomes.items() if o == "rejected"}
     ratio = gates.quality_reject_ratio([first_reason[r] for r in rejected_refs if r in first_reason], s["raw_blocks"])
+    orphan = gates.orphan_value_ratio(
+        [r.content for r in result.rejected if r.reject_reason == RejectReason.ORPHAN_NUMBER],
+        sum(len(e.cells or []) for e in result.evidence if e.content_type == ContentType.table_row))
     if ratio > max_ratio:
-        return False, ratio, f"quality reject ratio {ratio:.1%} > {max_ratio:.0%}"
-    return True, ratio, "ok"
+        return False, ratio, orphan, f"quality reject ratio {ratio:.1%} > {max_ratio:.0%}"
+    if orphan > max_orphan_ratio:
+        return False, ratio, orphan, f"orphan value ratio {orphan:.1%} > {max_orphan_ratio:.0%}: tables were not found"
+    return True, ratio, orphan, "ok"
 
 
 def stage_and_publish(wh: Warehouse, run_id: str, key: str, evidence_df: pd.DataFrame,
@@ -181,33 +186,40 @@ def run(config_path: str = "config/pipeline.yaml", run_id: str | None = None) ->
     sources = yaml.safe_load(open(paths["sources"], encoding="utf-8"))
     perm_text = Path(paths["permissions"]).read_text(encoding="utf-8")
     permissions = yaml.safe_load(perm_text)
+    gates.check_permission_config(permissions)
     perm_hash = hashlib.sha256(perm_text.encode()).hexdigest()[:16]
     extractor = cfg["parse"].get("table_extractor", "textlayer")
-    pversion = parser_version(extractor)
+    pversion = parser_version(extractor, cfg["parse"]["tier"])
     wh = Warehouse(paths["warehouse"])
     run_id = run_id or datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
     max_ratio = cfg["evidence"]["max_reject_ratio"]
+    max_orphan = cfg["evidence"].get("max_orphan_ratio", 1.0)
+    strategy = cfg.get("index", {}).get("strategy", "table_aware")
 
     plans = plan_runs(sources, wh.live_state(), perm_hash, pversion)
-    manifest_rows, log = [], {"run_id": run_id, "actions": {}, "parsed": 0, "published_rows": 0,
-                              "rejected_rows": 0, "retagged_rows": 0, "errors": []}
+    log = {"run_id": run_id, "actions": {}, "parsed": 0, "published_rows": 0,
+           "rejected_rows": 0, "retagged_rows": 0, "snapshot": None, "errors": []}
+    live_changed = False
 
-    def manifest_row(plan: Plan, status: str, stats: dict | None = None, ratio: float = 0.0, detail: str = ""):
+    def manifest_row(plan: Plan, status: str, stats: dict | None = None, ratio: float = 0.0,
+                     orphan: float = 0.0, detail: str = ""):
         stats = stats or {}
         return {
             "run_id": run_id, "source_key": plan.source_key, "status": status, "action": plan.action,
             "file_sha256": plan.file_sha256, "parser_version": pversion, "permissions_hash": perm_hash,
             **{k: stats.get(k, 0) for k in ("raw_blocks", "published_blocks", "rejected_blocks",
                                              "merged_blocks", "evidence_rows", "rejected_rows")},
-            "quality_reject_ratio": ratio, "detail": detail or plan.reason,
+            "quality_reject_ratio": ratio, "orphan_value_ratio": orphan, "detail": detail or plan.reason,
             "finished_at": datetime.now(timezone.utc).isoformat(),
         }
 
     for plan in plans:
         log["actions"][plan.action] = log["actions"].get(plan.action, 0) + 1
+        # Each document's manifest row is written right after its partition, so a crash
+        # mid-run never leaves a published partition the manifest does not know about.
         if plan.action in ("MISSING", "HASH_MISMATCH"):
             log["errors"].append(f"{plan.source_key}: {plan.reason}")
-            manifest_rows.append(manifest_row(plan, "error"))
+            wh.append_manifest([manifest_row(plan, "error")])
         elif plan.action in ("NEW", "CHANGED"):
             src = plan.source
             middle_path, parsed = ensure_parsed(src["local_path"], plan.file_sha256, Path(paths["parsed_dir"]),
@@ -216,45 +228,60 @@ def run(config_path: str = "config/pipeline.yaml", run_id: str | None = None) ->
             result = build_document(
                 Source(plan.source_key, plan.file_sha256, src["local_path"], src["file_name"]),
                 load_middle(middle_path), permissions, run_id, extractor)
-            ok, ratio, detail = audit(result, max_ratio)
+            ok, ratio, orphan, detail = audit(result, max_ratio, max_orphan)
             stage_and_publish(wh, run_id, plan.source_key, _rows_df(result.evidence), _rows_df(result.rejected), ok)
-            stats = {**result.stats, "table_status": None}
-            manifest_rows.append(manifest_row(plan, "published" if ok else "audit_failed", stats, ratio, detail))
+            wh.append_manifest([manifest_row(plan, "published" if ok else "audit_failed", result.stats,
+                                             ratio, orphan, detail)])
             if ok:
+                live_changed = True
                 log["published_rows"] += len(result.evidence)
                 log["rejected_rows"] += len(result.rejected)
             else:
                 log["errors"].append(f"{plan.source_key}: {detail}; previous version stays live")
         elif plan.action == "RETAG":
+            prev = wh.live_state()[plan.source_key]
             ev = pd.read_parquet(wh.partition("evidence", plan.source_key))
             rj = pd.read_parquet(wh.partition("rejected", plan.source_key))
-            def level(section: str):
-                p = gates.resolve_permission(section, permissions)
-                return p.value if p else None
-
-            new_levels = ev["section_title"].map(level)
+            new_levels = pd.Series(
+                [(p.value if (p := gates.resolve_permission(s, c, permissions)) else None)
+                 for s, c in zip(ev["section_title"], ev["content"])], index=ev.index)
             untagged = new_levels.isna()
             changed = int((new_levels[~untagged] != ev.loc[~untagged, "permission_level"]).sum())
             if untagged.any():  # Gate 2 again: a rule change must not leave rows untagged
                 extra = ev[untagged].assign(gate="G2", reject_reason=RejectReason.NO_PERMISSION_TAG.value,
                                             detail="retag: no rule matched", block_type=None)
                 rj = pd.concat([rj, extra[[c for c in rj.columns if c in extra.columns]]], ignore_index=True)
-            ev = ev[~untagged].assign(permission_level=new_levels[~untagged], run_id=run_id)
+            before = {refs[0] for refs in ev["raw_refs"]}
+            # run_id stays: it names the build that produced the content. tag_run_id records the retag.
+            ev = ev[~untagged].assign(permission_level=new_levels[~untagged], tag_run_id=run_id)
+            lost = len(before - {refs[0] for refs in ev["raw_refs"]})  # blocks left with no published row
             stage_and_publish(wh, run_id, plan.source_key, ev, rj, True)
-            prev = wh.live_state()[plan.source_key]
             stats = {k: int(prev[k]) for k in ("raw_blocks", "published_blocks", "rejected_blocks", "merged_blocks")}
+            stats["published_blocks"] -= lost
+            stats["rejected_blocks"] += lost
             stats |= {"evidence_rows": len(ev), "rejected_rows": len(rj)}
-            manifest_rows.append(manifest_row(plan, "published", stats, float(prev["quality_reject_ratio"]),
-                                              f"retag: {changed} rows changed level"))
+            wh.append_manifest([manifest_row(plan, "published", stats, float(prev["quality_reject_ratio"]),
+                                             float(pd.Series([prev.get("orphan_value_ratio")]).fillna(0.0)[0]),
+                                             f"retag: {changed} rows changed level")])
+            live_changed = True
             log["retagged_rows"] += changed
         elif plan.action == "REMOVED":
+            # Retired partitions are moved aside, not deleted: the rejected rows are part of
+            # the audit trail ("no evidence disappears silently").
             for kind in ("evidence", "rejected"):
                 part = wh.partition(kind, plan.source_key).parent
                 if part.exists():
-                    shutil.rmtree(part)
-            manifest_rows.append(manifest_row(plan, "retired"))
+                    dest = wh.root / "retired" / run_id / kind / part.name
+                    dest.parent.mkdir(parents=True, exist_ok=True)
+                    os.replace(part, dest)
+            wh.append_manifest([manifest_row(plan, "retired")])
+            live_changed = True
 
-    wh.append_manifest(manifest_rows)
+    indexes = paths.get("indexes", "indexes")
+    if live_changed or snapshot.current_id(indexes, strategy) is None:
+        snapshot.build(wh.root, indexes, strategy, run_id, wh.live_state())
+        snapshot.publish(indexes, strategy, run_id)
+        log["snapshot"] = f"{strategy}/{run_id}"
     staging = wh.root / "staging" / run_id
     if staging.exists() and not any(p.is_file() for p in staging.rglob("*")):
         shutil.rmtree(staging)  # everything was published; keep staging only for failed audits
@@ -265,7 +292,8 @@ def format_log(log: dict) -> str:
     acts = " ".join(f"{k}={v}" for k, v in sorted(log["actions"].items()))
     line = (f"run_id={log['run_id']}  {acts}\n"
             f"parsed={log['parsed']}  published_rows={log['published_rows']:,}  "
-            f"rejected_rows={log['rejected_rows']:,}  retagged_rows={log['retagged_rows']:,}")
+            f"rejected_rows={log['rejected_rows']:,}  retagged_rows={log['retagged_rows']:,}  "
+            f"snapshot={log['snapshot'] or 'unchanged'}")
     for e in log["errors"]:
         line += f"\nERROR {e}"
     return line
