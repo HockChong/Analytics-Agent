@@ -59,8 +59,8 @@ def sha256_file(path: str | Path) -> str:
     return h.hexdigest()
 
 
-def parser_version() -> str:
-    return f"{PARSER_VERSION}+mineru-{metadata.version('mineru')}"
+def parser_version(table_extractor: str = "textlayer") -> str:
+    return f"{PARSER_VERSION}+{table_extractor}+mineru-{metadata.version('mineru')}"
 
 
 class Warehouse:
@@ -182,7 +182,8 @@ def run(config_path: str = "config/pipeline.yaml", run_id: str | None = None) ->
     perm_text = Path(paths["permissions"]).read_text()
     permissions = yaml.safe_load(perm_text)
     perm_hash = hashlib.sha256(perm_text.encode()).hexdigest()[:16]
-    pversion = parser_version()
+    extractor = cfg["parse"].get("table_extractor", "textlayer")
+    pversion = parser_version(extractor)
     wh = Warehouse(paths["warehouse"])
     run_id = run_id or datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
     max_ratio = cfg["evidence"]["max_reject_ratio"]
@@ -214,7 +215,7 @@ def run(config_path: str = "config/pipeline.yaml", run_id: str | None = None) ->
             log["parsed"] += int(parsed)
             result = build_document(
                 Source(plan.source_key, plan.file_sha256, src["local_path"], src["file_name"]),
-                load_middle(middle_path), permissions, run_id)
+                load_middle(middle_path), permissions, run_id, extractor)
             ok, ratio, detail = audit(result, max_ratio)
             stage_and_publish(wh, run_id, plan.source_key, _rows_df(result.evidence), _rows_df(result.rejected), ok)
             stats = {**result.stats, "table_status": None}

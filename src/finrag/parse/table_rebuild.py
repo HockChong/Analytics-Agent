@@ -16,6 +16,12 @@ born-digital PDF the text layer already holds exact word positions, so:
    text with no values), or a wrapped label line.
 
 Each output row carries a bbox per cell, so a citation can highlight the exact value.
+
+The grid step (which words form which rows and columns) is switchable, so extractors can
+be compared on the same region with the same rules on top (eval/score_tables.py):
+- "textlayer": numeric words clustered by right edge, lines grouped by top (default)
+- "camelot":   Camelot stream mode on the same region defines rows and column
+               boundaries; words and their bboxes still come from the text layer
 """
 from __future__ import annotations
 
@@ -43,6 +49,9 @@ class TableRow:
     label: str
     cells: list[Cell]
     bbox: BBox
+
+
+EXTRACTORS = ("textlayer", "camelot")
 
 
 @dataclass
@@ -260,8 +269,47 @@ def _grow(lines: list[list[dict]], seed: BBox, spans, label_edge: float) -> list
     return lines[lo:hi + 1]
 
 
+# ---------------------------------------------------------------- camelot grid
+def _camelot_grid(pdf_path: str, page, region: BBox, words: list[dict]):
+    """Rows and value-column spans from Camelot stream mode, filled with text-layer words."""
+    import camelot  # optional dependency: pip install -e ".[extractors]"
+
+    h = float(page.height)
+    x0, y0, x1, y1 = region
+    area = f"{x0 - 2},{h - (y0 - 2)},{x1 + 2},{h - (y1 + 2)}"  # Camelot: bottom-left origin
+    tables = camelot.read_pdf(pdf_path, pages=str(page.page_number), flavor="stream", table_areas=[area])
+    if not tables.n:
+        return None
+    t = tables[0]
+    in_region = [w for w in words if x0 - 1 <= (w["x0"] + w["x1"]) / 2 <= x1 + 1
+                 and y0 - 1 <= (w["top"] + w["bottom"]) / 2 <= y1 + 1]
+    lines: list[list[dict]] = []
+    for top_bl, bottom_bl in t.rows:
+        top, bottom = h - top_bl, h - bottom_bl
+        row = sorted((w for w in in_region if top <= (w["top"] + w["bottom"]) / 2 <= bottom), key=lambda w: w["x0"])
+        if row:
+            lines.append(row)
+
+    def col_words(c):
+        return [w for w in in_region if c[0] <= (w["x0"] + w["x1"]) / 2 <= c[1]]
+
+    cols = [c for c in t.cols if col_words(c)]
+    n_label = 0  # leading columns that are mostly text are label columns
+    for c in cols:
+        ws = col_words(c)
+        if sum(is_value(w["text"]) for w in ws) < 0.5 * len(ws):
+            n_label += 1
+        else:
+            break
+    spans = [(float(c[0]), float(c[1])) for c in cols[max(n_label, 1):]]
+    return (spans, lines) if spans and lines else None
+
+
 # ---------------------------------------------------------------- main entry
-def rebuild_table(page, table: RawBlock, page_blocks: list[RawBlock]) -> TableResult:
+def rebuild_table(page, table: RawBlock, page_blocks: list[RawBlock], extractor: str = "textlayer",
+                  pdf_path: str | None = None) -> TableResult:
+    if extractor not in EXTRACTORS:
+        raise ValueError(f"unknown table extractor {extractor!r}; expected one of {EXTRACTORS}")
     tb = table.bbox
     half_lo, half_hi = _page_half(tb, table.page_width)
     seed_words = [w for w in _words(page, tb) if tb[0] - 1 <= (w["x0"] + w["x1"]) / 2 <= tb[2] + 1]
@@ -286,6 +334,12 @@ def rebuild_table(page, table: RawBlock, page_blocks: list[RawBlock]) -> TableRe
         and b.block_type in ("text", "paragraph_title", "code", "equation", "table")
         and _inside_ratio(b.bbox, region) >= 0.6
     ]
+    if extractor == "camelot":
+        grid = _camelot_grid(pdf_path, page, region, words)
+        if grid is None:
+            return _fallback(table, "camelot found no table in region")
+        spans, lines = grid
+        label_edge = spans[0][0] - 2
 
     first_data = next(
         (i for i, line in enumerate(lines)
@@ -308,6 +362,7 @@ def rebuild_table(page, table: RawBlock, page_blocks: list[RawBlock]) -> TableRe
         else:
             break
     columns, caption = _header_paths(header_lines, spans, label_edge)
+    note_cols = {i for i, c in enumerate(columns) if c.split(" | ")[-1].strip().lower() == "note"}
     rows: list[TableRow] = []
     pending: list[dict] = []  # label words waiting for their values on a later line
     group = ""  # parent label for "– sub item" rows ("Management fees" / "– Base component")
@@ -332,6 +387,11 @@ def rebuild_table(page, table: RawBlock, page_blocks: list[RawBlock]) -> TableRe
                 pending += label_words  # values all outside the columns: keep the label for later
                 continue
             label_only, note = _split_note(label_words)
+            for c in note_cols & set(cells):  # a "Note" column holds references, not values
+                note = _text(cells.pop(c))
+            if not cells:
+                pending += label_words
+                continue
             label = _text(pending + label_only)
             if not label:
                 label = "Subtotal"  # values with no label: a total line under the rows above
@@ -375,12 +435,14 @@ def rebuild_table(page, table: RawBlock, page_blocks: list[RawBlock]) -> TableRe
         return _fallback(table, "columns found but no rows")
     # Quality check on our own output: rows need a label and a named column. When most do
     # not, the structure is wrong, and plain text is safer than a confident wrong table.
-    good = sum(1 for r in rows if r.label and any(not c.column.startswith("col") for c in r.cells))
+    # "Subtotal" is the label given to rows that had none, so it does not count as labelled.
+    good = sum(1 for r in rows if r.label and r.label != "Subtotal"
+               and any(not c.column.startswith("col") for c in r.cells))
     if good < 0.6 * len(rows):
         return _fallback(table, f"structure check failed: {good}/{len(rows)} rows labelled")
     status = "ok" if unassigned == 0 else "partial"
     return TableResult(status=status, caption=caption, rows=rows, consumed_refs=consumed,
-                       region=region, detail=f"unassigned_words={unassigned}")
+                       region=region, detail=f"{extractor} unassigned_words={unassigned}")
 
 
 def _fallback(table: RawBlock, why: str) -> TableResult:

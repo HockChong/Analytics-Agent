@@ -90,7 +90,8 @@ def _content_sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def build_document(source: Source, middle: dict, permissions: dict, run_id: str) -> BuildResult:
+def build_document(source: Source, middle: dict, permissions: dict, run_id: str,
+                   table_extractor: str = "textlayer") -> BuildResult:
     blocks = list(iter_blocks(middle))
     chapters = chapters_from_toc(source.pdf_path)
     by_page: dict[int, list[RawBlock]] = {}
@@ -144,7 +145,7 @@ def build_document(source: Source, middle: dict, permissions: dict, run_id: str)
             consumed: set[str] = set()
             for b in page_blocks:
                 if b.block_type == "table" and b.raw_ref not in consumed and b.bbox:
-                    result = rebuild_table(pdf.pages[page_no - 1], b, page_blocks)
+                    result = rebuild_table(pdf.pages[page_no - 1], b, page_blocks, table_extractor, source.pdf_path)
                     tables[b.raw_ref] = result
                     consumed |= set(result.consumed_refs)
                     table_status[result.status] += 1

@@ -15,6 +15,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
+extractors = ["camelot-py>=1.0"]
 
 [build-system]
 requires = ["setuptools>=68"]

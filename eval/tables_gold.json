@@ -1,0 +1,2950 @@
+[
+ {
+  "table": "p5/b10",
+  "page": 5,
+  "title": "Financial Highlights (two-page spread)",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "ok",
+   "camelot": "ok"
+  },
+  "check_image": "eval/table_check/p5_b10.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Gross Revenue",
+    "column": "2021",
+    "value": "1,305.1",
+    "bbox": [
+     837.5,
+     238.9,
+     871.6,
+     248.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 1,
+    "row": "Gross Revenue",
+    "column": "2022",
+    "value": "1,441.7",
+    "bbox": [
+     905.6,
+     238.9,
+     939.7,
+     248.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 2,
+    "row": "Gross Revenue",
+    "column": "2023",
+    "value": "1,559.9",
+    "bbox": [
+     973.8,
+     238.9,
+     1007.7,
+     248.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 3,
+    "row": "Gross Revenue",
+    "column": "2024",
+    "value": "1,586.3",
+    "bbox": [
+     1041.5,
+     238.9,
+     1075.7,
+     248.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 4,
+    "row": "Gross Revenue",
+    "column": "2025",
+    "value": "1,619.2",
+    "bbox": [
+     1109.3,
+     239.0,
+     1143.8,
+     248.3
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 5,
+    "row": "Distributable Income",
+    "column": "2021",
+    "value": "674.7",
+    "bbox": [
+     846.8,
+     267.2,
+     871.6,
+     276.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 6,
+    "row": "Distributable Income",
+    "column": "2022",
+    "value": "702.4",
+    "bbox": [
+     913.9,
+     267.2,
+     939.7,
+     276.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 7,
+    "row": "Distributable Income",
+    "column": "2023",
+    "value": "715.7",
+    "bbox": [
+     982.5,
+     267.2,
+     1007.7,
+     276.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 8,
+    "row": "Distributable Income",
+    "column": "2024",
+    "value": "752.2",
+    "bbox": [
+     1050.1,
+     267.2,
+     1075.7,
+     276.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 9,
+    "row": "Distributable Income",
+    "column": "2025",
+    "value": "860.9",
+    "bbox": [
+     1117.4,
+     267.3,
+     1143.8,
+     276.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 10,
+    "row": "Investment Properties",
+    "column": "2021",
+    "value": "21,431.1",
+    "bbox": [
+     832.0,
+     323.9,
+     871.6,
+     333.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 11,
+    "row": "Investment Properties",
+    "column": "2022",
+    "value": "23,744.8",
+    "bbox": [
+     900.5,
+     323.9,
+     939.7,
+     333.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 12,
+    "row": "Investment Properties",
+    "column": "2023",
+    "value": "24,024.9",
+    "bbox": [
+     968.3,
+     323.9,
+     1007.7,
+     333.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 13,
+    "row": "Investment Properties",
+    "column": "2024",
+    "value": "23,702.3",
+    "bbox": [
+     1036.4,
+     323.9,
+     1075.7,
+     333.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 14,
+    "row": "Investment Properties",
+    "column": "2025",
+    "value": "25,601.6",
+    "bbox": [
+     1104.5,
+     323.9,
+     1143.8,
+     333.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 15,
+    "row": "Unitholders’ Funds",
+    "column": "2021",
+    "value": "13,667.8",
+    "bbox": [
+     833.0,
+     352.2,
+     871.6,
+     361.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 16,
+    "row": "Unitholders’ Funds",
+    "column": "2022",
+    "value": "14,073.4",
+    "bbox": [
+     900.2,
+     352.2,
+     939.7,
+     361.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 17,
+    "row": "Unitholders’ Funds",
+    "column": "2023",
+    "value": "14,199.8",
+    "bbox": [
+     968.2,
+     352.2,
+     1007.7,
+     361.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 18,
+    "row": "Unitholders’ Funds",
+    "column": "2024",
+    "value": "15,524.5",
+    "bbox": [
+     1036.4,
+     352.2,
+     1075.7,
+     361.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 19,
+    "row": "Unitholders’ Funds",
+    "column": "2025",
+    "value": "16,292.1",
+    "bbox": [
+     1103.0,
+     352.3,
+     1143.8,
+     361.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 20,
+    "row": "Distribution Per Unit (¢)",
+    "column": "2021",
+    "value": "10.40",
+    "bbox": [
+     845.9,
+     408.9,
+     871.6,
+     418.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 21,
+    "row": "Distribution Per Unit (¢)",
+    "column": "2022",
+    "value": "10.58",
+    "bbox": [
+     914.1,
+     408.9,
+     939.7,
+     418.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 22,
+    "row": "Distribution Per Unit (¢)",
+    "column": "2023",
+    "value": "10.75",
+    "bbox": [
+     982.6,
+     408.9,
+     1007.7,
+     418.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 23,
+    "row": "Distribution Per Unit (¢)",
+    "column": "2024",
+    "value": "10.88",
+    "bbox": [
+     1050.1,
+     408.9,
+     1075.7,
+     418.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 24,
+    "row": "Distribution Per Unit (¢)",
+    "column": "2025",
+    "value": "11.58",
+    "bbox": [
+     1117.5,
+     409.0,
+     1143.8,
+     418.3
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 25,
+    "row": "% of Total Assets that are Unencumbered",
+    "column": "2021",
+    "value": "96.1",
+    "bbox": [
+     851.6,
+     437.3,
+     871.7,
+     446.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 26,
+    "row": "% of Total Assets that are Unencumbered",
+    "column": "2022",
+    "value": "93.5",
+    "bbox": [
+     919.7,
+     437.3,
+     939.7,
+     446.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 27,
+    "row": "% of Total Assets that are Unencumbered",
+    "column": "2023",
+    "value": "93.7",
+    "bbox": [
+     987.9,
+     437.3,
+     1007.7,
+     446.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 28,
+    "row": "% of Total Assets that are Unencumbered",
+    "column": "2024",
+    "value": "93.8",
+    "bbox": [
+     1055.7,
+     437.3,
+     1075.7,
+     446.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 29,
+    "row": "% of Total Assets that are Unencumbered",
+    "column": "2025",
+    "value": "90.9",
+    "bbox": [
+     1123.5,
+     437.4,
+     1143.8,
+     446.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 30,
+    "row": "Interest Coverage (times)",
+    "column": "2021",
+    "value": "4.1",
+    "bbox": [
+     857.5,
+     476.7,
+     871.6,
+     485.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 31,
+    "row": "Interest Coverage (times)",
+    "column": "2022",
+    "value": "3.7",
+    "bbox": [
+     925.7,
+     476.7,
+     939.7,
+     485.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 32,
+    "row": "Interest Coverage (times)",
+    "column": "2023",
+    "value": "3.1",
+    "bbox": [
+     993.6,
+     476.7,
+     1007.7,
+     485.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 33,
+    "row": "Interest Coverage (times)",
+    "column": "2024",
+    "value": "3.1",
+    "bbox": [
+     1061.6,
+     476.7,
+     1075.7,
+     485.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 34,
+    "row": "Interest Coverage (times)",
+    "column": "2025",
+    "value": "3.7",
+    "bbox": [
+     1129.6,
+     476.8,
+     1143.8,
+     486.0
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 35,
+    "row": "Average Cost of Debt (%)",
+    "column": "2021",
+    "value": "2.3",
+    "bbox": [
+     857.4,
+     505.0,
+     871.6,
+     514.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 36,
+    "row": "Average Cost of Debt (%)",
+    "column": "2022",
+    "value": "2.7",
+    "bbox": [
+     925.7,
+     505.0,
+     939.7,
+     514.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 37,
+    "row": "Average Cost of Debt (%)",
+    "column": "2023",
+    "value": "3.4",
+    "bbox": [
+     993.6,
+     505.0,
+     1007.7,
+     514.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 38,
+    "row": "Average Cost of Debt (%)",
+    "column": "2024",
+    "value": "3.6",
+    "bbox": [
+     1061.7,
+     505.0,
+     1075.7,
+     514.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 39,
+    "row": "Average Cost of Debt (%)",
+    "column": "2025",
+    "value": "3.2",
+    "bbox": [
+     1129.2,
+     505.1,
+     1143.8,
+     514.3
+    ],
+    "check": "agree"
+   }
+  ]
+ },
+ {
+  "table": "p23/b4",
+  "page": 23,
+  "title": "Portfolio valuation by property",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "html_fallback",
+   "camelot": "partial"
+  },
+  "check_image": "eval/table_check/p23_b4.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Subtotal",
+    "column": "Valuation as at",
+    "value": "31",
+    "bbox": [
+     233.7,
+     186.2,
+     245.2,
+     195.2
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 1,
+    "row": "Subtotal",
+    "column": "Valuation as at",
+    "value": "31",
+    "bbox": [
+     307.6,
+     186.2,
+     319.1,
+     195.2
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 2,
+    "row": "Subtotal",
+    "column": "Valuation as at",
+    "value": "31",
+    "bbox": [
+     474.5,
+     186.2,
+     486.0,
+     195.2
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 3,
+    "row": "IMM Building",
+    "column": "Valuation as at",
+    "value": "763.0",
+    "bbox": [
+     267.4,
+     260.9,
+     290.5,
+     269.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 4,
+    "row": "IMM Building",
+    "column": "Valuation as at",
+    "value": "790.0",
+    "bbox": [
+     340.8,
+     261.0,
+     364.4,
+     269.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 5,
+    "row": "IMM Building",
+    "column": "Valuation as at",
+    "value": "27.0",
+    "bbox": [
+     418.3,
+     260.9,
+     435.1,
+     269.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 6,
+    "row": "IMM Building",
+    "column": "Valuation as at",
+    "value": "826",
+    "bbox": [
+     515.1,
+     261.0,
+     531.2,
+     269.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 7,
+    "row": "Westgate",
+    "column": "Valuation as at",
+    "value": "1,127.0",
+    "bbox": [
+     261.2,
+     321.8,
+     290.5,
+     330.3
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 8,
+    "row": "Westgate",
+    "column": "Valuation as at",
+    "value": "1,140.0",
+    "bbox": [
+     332.3,
+     321.9,
+     363.8,
+     330.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 9,
+    "row": "Westgate",
+    "column": "Valuation as at",
+    "value": "13.0",
+    "bbox": [
+     417.2,
+     321.8,
+     435.1,
+     330.3
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 10,
+    "row": "Westgate",
+    "column": "Valuation as at",
+    "value": "2,847",
+    "bbox": [
+     507.4,
+     321.9,
+     531.2,
+     330.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 11,
+    "row": "Asia Square Tower 2",
+    "column": "Valuation as at",
+    "value": "2,245.0",
+    "bbox": [
+     259.9,
+     397.0,
+     290.5,
+     405.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 12,
+    "row": "Asia Square Tower 2",
+    "column": "Valuation as at",
+    "value": "2,252.0",
+    "bbox": [
+     332.4,
+     397.1,
+     363.8,
+     405.6
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 13,
+    "row": "Asia Square Tower 2",
+    "column": "Valuation as at",
+    "value": "7.0",
+    "bbox": [
+     423.4,
+     397.0,
+     435.1,
+     405.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 14,
+    "row": "Asia Square Tower 2",
+    "column": "Valuation as at",
+    "value": "2,911",
+    "bbox": [
+     507.6,
+     397.1,
+     531.2,
+     405.6
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 15,
+    "row": "CapitaSky (70%)",
+    "column": "Valuation as at",
+    "value": "884.1",
+    "bbox": [
+     266.9,
+     457.9,
+     290.5,
+     466.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 16,
+    "row": "CapitaSky (70%)",
+    "column": "Valuation as at",
+    "value": "887.6",
+    "bbox": [
+     341.1,
+     458.0,
+     363.8,
+     466.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 17,
+    "row": "CapitaSky (70%)",
+    "column": "Valuation as at",
+    "value": "3.5",
+    "bbox": [
+     422.3,
+     457.9,
+     435.1,
+     466.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 18,
+    "row": "CapitaSky (70%)",
+    "column": "Valuation as at",
+    "value": "2,444",
+    "bbox": [
+     506.7,
+     458.0,
+     531.2,
+     466.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 19,
+    "row": "100 Arthur Street, Australia",
+    "column": "Valuation as at",
+    "value": "261.0",
+    "bbox": [
+     267.4,
+     506.6,
+     290.6,
+     515.1
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 20,
+    "row": "100 Arthur Street, Australia",
+    "column": "Valuation as at",
+    "value": "242.6",
+    "bbox": [
+     340.1,
+     506.7,
+     364.0,
+     515.2
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 21,
+    "row": "100 Arthur Street, Australia",
+    "column": "Valuation as at",
+    "value": "(18.4)",
+    "bbox": [
+     414.4,
+     506.6,
+     438.4,
+     515.1
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 22,
+    "row": "100 Arthur Street, Australia",
+    "column": "Valuation as at",
+    "value": "833",
+    "bbox": [
+     514.8,
+     506.7,
+     531.2,
+     515.2
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 23,
+    "row": "The Atrium@Orchard",
+    "column": "Valuation as at",
+    "value": "786.0",
+    "bbox": [
+     267.4,
+     591.9,
+     290.5,
+     600.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 24,
+    "row": "The Atrium@Orchard",
+    "column": "Valuation as at",
+    "value": "789.0",
+    "bbox": [
+     340.3,
+     592.0,
+     363.8,
+     600.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 25,
+    "row": "The Atrium@Orchard",
+    "column": "Valuation as at",
+    "value": "3.0",
+    "bbox": [
+     422.4,
+     591.9,
+     435.1,
+     600.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 26,
+    "row": "The Atrium@Orchard",
+    "column": "Valuation as at",
+    "value": "2,157",
+    "bbox": [
+     510.1,
+     592.0,
+     531.2,
+     600.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 27,
+    "row": "Grand total",
+    "column": "Valuation as at",
+    "value": "26,034.9",
+    "bbox": [
+     253.8,
+     650.9,
+     290.6,
+     659.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 28,
+    "row": "Grand total",
+    "column": "Valuation as at",
+    "value": "27,397.5",
+    "bbox": [
+     329.2,
+     650.9,
+     363.8,
+     659.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 29,
+    "row": "Grand total",
+    "column": "Valuation as at",
+    "value": "1,362.5",
+    "bbox": [
+     403.5,
+     650.9,
+     435.1,
+     659.4
+    ],
+    "check": "camelot only"
+   }
+  ]
+ },
+ {
+  "table": "p25/b4",
+  "page": 25,
+  "title": "Financial review: revenue and NPI by property",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "text_only",
+   "camelot": "partial"
+  },
+  "check_image": "eval/table_check/p25_b4.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Bedok Mall",
+    "column": "Gross Revenue (S$ million) | FY 2024",
+    "value": "58.1",
+    "bbox": [
+     445.8,
+     282.0,
+     465.8,
+     291.2
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 1,
+    "row": "Bedok Mall",
+    "column": "Gross Revenue (S$ million) | FY 2025",
+    "value": "58.9",
+    "bbox": [
+     513.5,
+     282.1,
+     533.8,
+     291.3
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 2,
+    "row": "Junction 8",
+    "column": "Gross Revenue (S$ million) | FY 2024",
+    "value": "61.0",
+    "bbox": [
+     446.0,
+     330.8,
+     465.8,
+     340.0
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 3,
+    "row": "Junction 8",
+    "column": "Gross Revenue (S$ million) | FY 2025",
+    "value": "62.8",
+    "bbox": [
+     513.3,
+     330.9,
+     533.8,
+     340.1
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 4,
+    "row": "Other Assets",
+    "column": "Gross Revenue (S$ million) | FY 2024",
+    "value": "63.4",
+    "bbox": [
+     445.7,
+     379.5,
+     465.8,
+     388.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 5,
+    "row": "Other Assets",
+    "column": "Gross Revenue (S$ million) | FY 2025",
+    "value": "65.7",
+    "bbox": [
+     513.7,
+     379.6,
+     533.8,
+     388.9
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 6,
+    "row": "Capital Tower",
+    "column": "Gross Revenue (S$ million) | FY 2024",
+    "value": "81.9",
+    "bbox": [
+     445.9,
+     452.6,
+     465.8,
+     461.9
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 7,
+    "row": "Capital Tower",
+    "column": "Gross Revenue (S$ million) | FY 2025",
+    "value": "79.8",
+    "bbox": [
+     513.7,
+     452.8,
+     533.8,
+     462.0
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 8,
+    "row": "21 Collyer Quay",
+    "column": "Gross Revenue (S$ million) | FY 2024",
+    "value": "26.3",
+    "bbox": [
+     445.9,
+     501.4,
+     465.8,
+     510.6
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 9,
+    "row": "21 Collyer Quay",
+    "column": "Gross Revenue (S$ million) | FY 2025",
+    "value": "-",
+    "bbox": [
+     527.9,
+     501.5,
+     533.8,
+     510.7
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 10,
+    "row": "100 Arthur Street",
+    "column": "Gross Revenue (S$ million) | FY 2024",
+    "value": "13.5",
+    "bbox": [
+     445.9,
+     550.2,
+     465.8,
+     559.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 11,
+    "row": "100 Arthur Street",
+    "column": "Gross Revenue (S$ million) | FY 2025",
+    "value": "15.0",
+    "bbox": [
+     513.8,
+     550.3,
+     533.8,
+     559.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 12,
+    "row": "The Atrium@Orchard",
+    "column": "Gross Revenue (S$ million) | FY 2024",
+    "value": "51.3",
+    "bbox": [
+     446.0,
+     623.3,
+     465.8,
+     632.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 13,
+    "row": "The Atrium@Orchard",
+    "column": "Gross Revenue (S$ million) | FY 2025",
+    "value": "50.5",
+    "bbox": [
+     513.7,
+     623.4,
+     533.8,
+     632.6
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 14,
+    "row": "Total",
+    "column": "Gross Revenue (S$ million) | FY 2024",
+    "value": "1,586.3",
+    "bbox": [
+     430.9,
+     672.1,
+     465.8,
+     681.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 15,
+    "row": "Total",
+    "column": "Gross Revenue (S$ million) | FY 2025",
+    "value": "1,619.2",
+    "bbox": [
+     499.4,
+     672.1,
+     533.8,
+     681.4
+    ],
+    "check": "camelot only"
+   }
+  ]
+ },
+ {
+  "table": "p27/b5",
+  "page": 27,
+  "title": "Capital management indicators",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "ok",
+   "camelot": "html_fallback"
+  },
+  "check_image": "eval/table_check/p27_b5.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Aggregate Leverage (%)",
+    "column": "As at 31 December 2024",
+    "value": "38.5",
+    "bbox": [
+     391.2,
+     180.1,
+     411.3,
+     189.3
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 1,
+    "row": "Aggregate Leverage (%)",
+    "column": "As at 31 December 2025",
+    "value": "38.6",
+    "bbox": [
+     513.6,
+     180.2,
+     534.0,
+     189.4
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 2,
+    "row": "Total Borrowings (S$ billion)",
+    "column": "As at 31 December 2024",
+    "value": "8.9",
+    "bbox": [
+     397.1,
+     199.4,
+     411.3,
+     208.7
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 3,
+    "row": "Total Borrowings (S$ billion)",
+    "column": "As at 31 December 2025",
+    "value": "10.0",
+    "bbox": [
+     514.0,
+     199.5,
+     534.0,
+     208.8
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 4,
+    "row": "% of Borrowings on Fixed Interest Rate",
+    "column": "As at 31 December 2024",
+    "value": "81",
+    "bbox": [
+     399.6,
+     218.8,
+     411.3,
+     228.0
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 5,
+    "row": "% of Borrowings on Fixed Interest Rate",
+    "column": "As at 31 December 2025",
+    "value": "74",
+    "bbox": [
+     522.7,
+     218.9,
+     534.0,
+     228.2
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 6,
+    "row": "% of Total Assets that are Unencumbered",
+    "column": "As at 31 December 2024",
+    "value": "93.8",
+    "bbox": [
+     391.2,
+     237.9,
+     411.3,
+     247.1
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 7,
+    "row": "% of Total Assets that are Unencumbered",
+    "column": "As at 31 December 2025",
+    "value": "90.9",
+    "bbox": [
+     513.7,
+     238.0,
+     534.0,
+     247.2
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 8,
+    "row": "Interest Coverage Ratio (ICR) (times)",
+    "column": "As at 31 December 2024",
+    "value": "3.1",
+    "bbox": [
+     397.1,
+     254.9,
+     411.3,
+     264.1
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 9,
+    "row": "Interest Coverage Ratio (ICR) (times)",
+    "column": "As at 31 December 2025",
+    "value": "3.7",
+    "bbox": [
+     519.8,
+     255.0,
+     534.0,
+     264.2
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 10,
+    "row": "Average Term to Maturity (years)",
+    "column": "As at 31 December 2024",
+    "value": "3.9",
+    "bbox": [
+     397.1,
+     271.9,
+     411.3,
+     281.1
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 11,
+    "row": "Average Term to Maturity (years)",
+    "column": "As at 31 December 2025",
+    "value": "4.0",
+    "bbox": [
+     519.6,
+     272.0,
+     534.0,
+     281.2
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 12,
+    "row": "Average Cost of Debt (%)",
+    "column": "As at 31 December 2024",
+    "value": "3.6",
+    "bbox": [
+     397.2,
+     288.7,
+     411.3,
+     298.0
+    ],
+    "check": "textlayer only"
+   },
+   {
+    "id": 13,
+    "row": "Average Cost of Debt (%)",
+    "column": "As at 31 December 2025",
+    "value": "3.2",
+    "bbox": [
+     519.4,
+     288.8,
+     534.0,
+     298.1
+    ],
+    "check": "textlayer only"
+   }
+  ]
+ },
+ {
+  "table": "p40/b14",
+  "page": 40,
+  "title": "Property statistics (Bugis Junction)",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "ok",
+   "camelot": "ok"
+  },
+  "check_image": "eval/table_check/p40_b14.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Valuation (S$ million)",
+    "column": "2024",
+    "value": "1,141.0",
+    "bbox": [
+     204.1,
+     494.8,
+     237.7,
+     504.0
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 1,
+    "row": "Valuation (S$ million)",
+    "column": "2025",
+    "value": "1,155.0",
+    "bbox": [
+     251.1,
+     494.9,
+     285.6,
+     504.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 2,
+    "row": "GFA (sq ft)",
+    "column": "2024",
+    "value": "577,000",
+    "bbox": [
+     201.1,
+     511.8,
+     237.7,
+     521.0
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 3,
+    "row": "GFA (sq ft)",
+    "column": "2025",
+    "value": "577,000",
+    "bbox": [
+     248.6,
+     511.9,
+     285.6,
+     521.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 4,
+    "row": "NLA (sq ft)",
+    "column": "2024",
+    "value": "393,600",
+    "bbox": [
+     199.8,
+     528.8,
+     237.7,
+     538.0
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 5,
+    "row": "NLA (sq ft)",
+    "column": "2025",
+    "value": "392,800",
+    "bbox": [
+     247.0,
+     528.9,
+     285.6,
+     538.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 6,
+    "row": "Number of Tenants",
+    "column": "2024",
+    "value": "230",
+    "bbox": [
+     220.0,
+     545.8,
+     237.7,
+     555.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 7,
+    "row": "Number of Tenants",
+    "column": "2025",
+    "value": "220",
+    "bbox": [
+     267.8,
+     545.9,
+     285.6,
+     555.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 8,
+    "row": "Committed Occupancy (%)",
+    "column": "2024",
+    "value": "99.9",
+    "bbox": [
+     217.8,
+     562.8,
+     237.7,
+     572.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 9,
+    "row": "Committed Occupancy (%)",
+    "column": "2025",
+    "value": "99.1",
+    "bbox": [
+     265.3,
+     562.9,
+     285.6,
+     572.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 10,
+    "row": "Gross Revenue (S$ million)",
+    "column": "2024",
+    "value": "83.7",
+    "bbox": [
+     217.8,
+     579.8,
+     237.7,
+     589.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 11,
+    "row": "Gross Revenue (S$ million)",
+    "column": "2025",
+    "value": "84.9",
+    "bbox": [
+     265.1,
+     579.9,
+     285.6,
+     589.2
+    ],
+    "check": "agree"
+   }
+  ]
+ },
+ {
+  "table": "p105/b60",
+  "page": 105,
+  "title": "Statements of Financial Position",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "ok",
+   "camelot": "partial"
+  },
+  "check_image": "eval/table_check/p105_b60.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Plant and equipment (Note 4)",
+    "column": "Group | 2025 | $’000",
+    "value": "5,058",
+    "bbox": [
+     304.3,
+     183.9,
+     330.5,
+     193.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 1,
+    "row": "Plant and equipment (Note 4)",
+    "column": "Group | 2024 | $’000",
+    "value": "4,627",
+    "bbox": [
+     372.8,
+     183.8,
+     398.5,
+     193.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 2,
+    "row": "Plant and equipment (Note 4)",
+    "column": "Trust | 2025 | $’000",
+    "value": "1,032",
+    "bbox": [
+     440.3,
+     183.9,
+     466.6,
+     193.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 3,
+    "row": "Plant and equipment (Note 4)",
+    "column": "Trust | 2024 | $’000",
+    "value": "1,105",
+    "bbox": [
+     508.9,
+     183.8,
+     534.6,
+     193.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 4,
+    "row": "Financial derivatives (Note 10)",
+    "column": "Group | 2025 | $’000",
+    "value": "379",
+    "bbox": [
+     312.9,
+     244.5,
+     330.5,
+     253.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 5,
+    "row": "Financial derivatives (Note 10)",
+    "column": "Group | 2024 | $’000",
+    "value": "3,567",
+    "bbox": [
+     372.8,
+     244.4,
+     398.5,
+     253.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 6,
+    "row": "Financial derivatives (Note 10)",
+    "column": "Trust | 2025 | $’000",
+    "value": "–",
+    "bbox": [
+     462.0,
+     244.5,
+     466.6,
+     253.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 7,
+    "row": "Financial derivatives (Note 10)",
+    "column": "Trust | 2024 | $’000",
+    "value": "2,956",
+    "bbox": [
+     508.6,
+     244.4,
+     534.6,
+     253.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 8,
+    "row": "Trade and other receivables (Note 13)",
+    "column": "Group | 2025 | $’000",
+    "value": "102,702",
+    "bbox": [
+     292.7,
+     317.3,
+     330.5,
+     326.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 9,
+    "row": "Trade and other receivables (Note 13)",
+    "column": "Group | 2024 | $’000",
+    "value": "80,929",
+    "bbox": [
+     366.8,
+     317.2,
+     398.5,
+     326.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 10,
+    "row": "Trade and other receivables (Note 13)",
+    "column": "Trust | 2025 | $’000",
+    "value": "419,033",
+    "bbox": [
+     428.6,
+     317.3,
+     466.5,
+     326.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 11,
+    "row": "Trade and other receivables (Note 13)",
+    "column": "Trust | 2024 | $’000",
+    "value": "242,302",
+    "bbox": [
+     497.1,
+     317.2,
+     534.6,
+     326.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 12,
+    "row": "Financial derivatives (Note 10)",
+    "column": "Group | 2025 | $’000",
+    "value": "8,083",
+    "bbox": [
+     304.1,
+     414.6,
+     330.5,
+     423.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 13,
+    "row": "Financial derivatives (Note 10)",
+    "column": "Group | 2024 | $’000",
+    "value": "2,114",
+    "bbox": [
+     372.9,
+     414.5,
+     398.5,
+     423.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 14,
+    "row": "Financial derivatives (Note 10)",
+    "column": "Trust | 2025 | $’000",
+    "value": "632",
+    "bbox": [
+     448.6,
+     414.6,
+     466.5,
+     423.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 15,
+    "row": "Financial derivatives (Note 10)",
+    "column": "Trust | 2024 | $’000",
+    "value": "69",
+    "bbox": [
+     522.6,
+     414.5,
+     534.6,
+     423.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 16,
+    "row": "Liabilities held for sale (Note 12)",
+    "column": "Group | 2025 | $’000",
+    "value": "8,285",
+    "bbox": [
+     304.0,
+     487.4,
+     330.5,
+     496.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 17,
+    "row": "Liabilities held for sale (Note 12)",
+    "column": "Group | 2024 | $’000",
+    "value": "–",
+    "bbox": [
+     393.9,
+     487.3,
+     398.5,
+     496.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 18,
+    "row": "Liabilities held for sale (Note 12)",
+    "column": "Trust | 2025 | $’000",
+    "value": "8,285",
+    "bbox": [
+     440.1,
+     487.4,
+     466.5,
+     496.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 19,
+    "row": "Liabilities held for sale (Note 12)",
+    "column": "Trust | 2024 | $’000",
+    "value": "–",
+    "bbox": [
+     529.9,
+     487.3,
+     534.5,
+     496.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 20,
+    "row": "Lease liabilities (Note 17)",
+    "column": "Group | 2025 | $’000",
+    "value": "21,414",
+    "bbox": [
+     298.0,
+     560.1,
+     330.4,
+     569.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 21,
+    "row": "Lease liabilities (Note 17)",
+    "column": "Group | 2024 | $’000",
+    "value": "24,536",
+    "bbox": [
+     366.7,
+     560.0,
+     398.5,
+     569.3
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 22,
+    "row": "Lease liabilities (Note 17)",
+    "column": "Trust | 2025 | $’000",
+    "value": "308",
+    "bbox": [
+     448.5,
+     560.1,
+     466.5,
+     569.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 23,
+    "row": "Lease liabilities (Note 17)",
+    "column": "Trust | 2024 | $’000",
+    "value": "2,578",
+    "bbox": [
+     508.9,
+     560.0,
+     534.5,
+     569.3
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 24,
+    "row": "Net assets",
+    "column": "Group | 2025 | $’000",
+    "value": "16,490,317",
+    "bbox": [
+     278.3,
+     645.0,
+     330.4,
+     654.3
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 25,
+    "row": "Net assets",
+    "column": "Group | 2024 | $’000",
+    "value": "15,722,171",
+    "bbox": [
+     348.0,
+     644.9,
+     398.5,
+     654.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 26,
+    "row": "Net assets",
+    "column": "Trust | 2025 | $’000",
+    "value": "15,614,432",
+    "bbox": [
+     414.0,
+     645.0,
+     466.5,
+     654.3
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 27,
+    "row": "Net assets",
+    "column": "Trust | 2024 | $’000",
+    "value": "14,906,319",
+    "bbox": [
+     483.0,
+     644.9,
+     534.5,
+     654.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 28,
+    "row": "to Unitholders ($)",
+    "column": "Group | 2025 | $’000",
+    "value": "2.14",
+    "bbox": [
+     309.9,
+     753.3,
+     330.5,
+     762.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 29,
+    "row": "to Unitholders ($)",
+    "column": "Group | 2024 | $’000",
+    "value": "2.12",
+    "bbox": [
+     378.5,
+     753.2,
+     398.5,
+     762.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 30,
+    "row": "to Unitholders ($)",
+    "column": "Trust | 2025 | $’000",
+    "value": "2.05",
+    "bbox": [
+     446.1,
+     753.3,
+     466.6,
+     762.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 31,
+    "row": "to Unitholders ($)",
+    "column": "Trust | 2024 | $’000",
+    "value": "2.04",
+    "bbox": [
+     514.4,
+     753.2,
+     534.6,
+     762.4
+    ],
+    "check": "agree"
+   }
+  ]
+ },
+ {
+  "table": "p106/b36",
+  "page": 106,
+  "title": "Statement of Total Return",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "ok",
+   "camelot": "ok"
+  },
+  "check_image": "eval/table_check/p106_b36.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Gross revenue (Note 21)",
+    "column": "Group | 2024 | $’000",
+    "value": "1,586,329",
+    "bbox": [
+     502.9,
+     172.7,
+     548.8,
+     181.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 1,
+    "row": "Gross revenue (Note 21)",
+    "column": "Group | 2025 | $’000",
+    "value": "1,619,174",
+    "bbox": [
+     435.5,
+     172.8,
+     480.7,
+     182.0
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 2,
+    "row": "Investment income (Note 24)",
+    "column": "Group | 2025 | $’000",
+    "value": "9,083",
+    "bbox": [
+     454.5,
+     229.4,
+     480.7,
+     238.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 3,
+    "row": "Investment income (Note 24)",
+    "column": "Group | 2024 | $’000",
+    "value": "9,381",
+    "bbox": [
+     523.1,
+     229.3,
+     548.8,
+     238.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 4,
+    "row": "Professional fees",
+    "column": "Group | 2025 | $’000",
+    "value": "(1,981)",
+    "bbox": [
+     451.2,
+     286.2,
+     484.4,
+     295.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 5,
+    "row": "Professional fees",
+    "column": "Group | 2024 | $’000",
+    "value": "(3,175)",
+    "bbox": [
+     520.5,
+     286.0,
+     552.4,
+     295.3
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 6,
+    "row": "Finance costs (Note 25)",
+    "column": "Group | 2025 | $’000",
+    "value": "(314,704)",
+    "bbox": [
+     439.6,
+     342.8,
+     484.4,
+     352.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 7,
+    "row": "Finance costs (Note 25)",
+    "column": "Group | 2024 | $’000",
+    "value": "(345,394)",
+    "bbox": [
+     507.7,
+     342.7,
+     552.4,
+     352.0
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 8,
+    "row": "Net income",
+    "column": "Group | 2025 | $’000",
+    "value": "890,461",
+    "bbox": [
+     442.3,
+     413.7,
+     480.7,
+     422.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 9,
+    "row": "Net income",
+    "column": "Group | 2024 | $’000",
+    "value": "749,427",
+    "bbox": [
+     512.2,
+     413.6,
+     548.8,
+     422.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 10,
+    "row": "Total return for the year before tax",
+    "column": "Group | 2025 | $’000",
+    "value": "958,604",
+    "bbox": [
+     442.3,
+     470.4,
+     480.7,
+     479.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 11,
+    "row": "Total return for the year before tax",
+    "column": "Group | 2024 | $’000",
+    "value": "935,319",
+    "bbox": [
+     511.5,
+     470.3,
+     548.8,
+     479.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 12,
+    "row": "Unitholders",
+    "column": "Group | 2025 | $’000",
+    "value": "937,287",
+    "bbox": [
+     443.7,
+     541.2,
+     480.7,
+     550.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 13,
+    "row": "Unitholders",
+    "column": "Group | 2024 | $’000",
+    "value": "933,683",
+    "bbox": [
+     510.9,
+     541.1,
+     548.8,
+     550.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 14,
+    "row": "Diluted (Note 27)",
+    "column": "Group | 2025 | $’000",
+    "value": "12.60",
+    "bbox": [
+     454.4,
+     626.3,
+     480.7,
+     635.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 15,
+    "row": "Diluted (Note 27)",
+    "column": "Group | 2024 | $’000",
+    "value": "13.57",
+    "bbox": [
+     523.2,
+     626.2,
+     548.8,
+     635.4
+    ],
+    "check": "agree"
+   }
+  ]
+ },
+ {
+  "table": "p107/b11",
+  "page": 107,
+  "title": "Distribution Statement",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "ok",
+   "camelot": "ok"
+  },
+  "check_image": "eval/table_check/p107_b11.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Amount available for distribution to Unitholders at beginning of the year",
+    "column": "Group | 2025 | $’000",
+    "value": "249,796",
+    "bbox": [
+     428.2,
+     169.5,
+     466.3,
+     178.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 1,
+    "row": "Amount available for distribution to Unitholders at beginning of the year",
+    "column": "Group | 2024 | $’000",
+    "value": "371,657",
+    "bbox": [
+     497.3,
+     169.4,
+     534.3,
+     178.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 2,
+    "row": "Net tax and other adjustments (Note A)",
+    "column": "Group | 2025 | $’000",
+    "value": "(143,751)",
+    "bbox": [
+     425.6,
+     193.9,
+     470.2,
+     203.2
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 3,
+    "row": "Net tax and other adjustments (Note A)",
+    "column": "Group | 2024 | $’000",
+    "value": "(217,106)",
+    "bbox": [
+     495.1,
+     193.8,
+     537.9,
+     203.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 4,
+    "row": "Distribution income from joint ventures",
+    "column": "Group | 2025 | $’000",
+    "value": "52,328",
+    "bbox": [
+     434.4,
+     230.5,
+     466.5,
+     239.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 5,
+    "row": "Distribution income from joint ventures",
+    "column": "Group | 2024 | $’000",
+    "value": "21,918",
+    "bbox": [
+     502.9,
+     230.4,
+     534.3,
+     239.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 6,
+    "row": "Amount available for distribution to Unitholders",
+    "column": "Group | 2025 | $’000",
+    "value": "1,119,753",
+    "bbox": [
+     420.4,
+     254.9,
+     466.3,
+     264.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 7,
+    "row": "Amount available for distribution to Unitholders",
+    "column": "Group | 2024 | $’000",
+    "value": "1,133,249",
+    "bbox": [
+     488.5,
+     254.8,
+     534.3,
+     264.0
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 8,
+    "row": "Distribution of 5.43 cents per unit for period from 01/01/2024 to 30/06/2024",
+    "column": "Group | 2025 | $’000",
+    "value": "–",
+    "bbox": [
+     461.9,
+     291.4,
+     466.5,
+     300.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 9,
+    "row": "Distribution of 5.43 cents per unit for period from 01/01/2024 to 30/06/2024",
+    "column": "Group | 2024 | $’000",
+    "value": "(365,687)",
+    "bbox": [
+     493.8,
+     291.3,
+     537.9,
+     300.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 10,
+    "row": "11/09/2024 Distribution of 3.29 cents per unit for period from 12/09/2024 to 31/12/2024",
+    "column": "Group | 2025 | $’000",
+    "value": "(240,120)",
+    "bbox": [
+     425.1,
+     326.5,
+     470.2,
+     335.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 11,
+    "row": "11/09/2024 Distribution of 3.29 cents per unit for period from 12/09/2024 to 31/12/2024",
+    "column": "Group | 2024 | $’000",
+    "value": "–",
+    "bbox": [
+     529.7,
+     326.4,
+     534.3,
+     335.6
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 12,
+    "row": "Amount retained for general corporate and working capital purposes (Note B)",
+    "column": "Group | 2025 | $’000",
+    "value": "(9,083)",
+    "bbox": [
+     436.9,
+     373.7,
+     469.9,
+     382.9
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 13,
+    "row": "Amount retained for general corporate and working capital purposes (Note B)",
+    "column": "Group | 2024 | $’000",
+    "value": "(9,381)",
+    "bbox": [
+     505.5,
+     373.6,
+     537.9,
+     382.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 14,
+    "row": "Distribution per unit (cents)",
+    "column": "Group | 2025 | $’000",
+    "value": "11.58",
+    "bbox": [
+     440.0,
+     410.2,
+     466.3,
+     419.5
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 15,
+    "row": "Distribution per unit (cents)",
+    "column": "Group | 2024 | $’000",
+    "value": "10.88",
+    "bbox": [
+     508.7,
+     410.1,
+     534.3,
+     419.4
+    ],
+    "check": "agree"
+   }
+  ]
+ },
+ {
+  "table": "p154/b7",
+  "page": 154,
+  "title": "Reconciliation of movements of liabilities",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "text_only",
+   "camelot": "partial"
+  },
+  "check_image": "eval/table_check/p154_b7.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Subtotal",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "31",
+    "bbox": [
+     524.4,
+     199.3,
+     534.0,
+     206.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 1,
+    "row": "Loans and borrowings 8,995,062",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(280,800) 313,887 (5,616) –",
+    "bbox": [
+     166.0,
+     262.3,
+     333.3,
+     269.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 2,
+    "row": "Loans and borrowings 8,995,062",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "–",
+    "bbox": [
+     393.5,
+     262.3,
+     397.3,
+     269.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 3,
+    "row": "Loans and borrowings 8,995,062",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "1,022,659",
+    "bbox": [
+     405.9,
+     262.3,
+     444.3,
+     269.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 4,
+    "row": "Loans and borrowings 8,995,062",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(13,505) 10,031,687",
+    "bbox": [
+     455.2,
+     262.3,
+     534.3,
+     269.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 5,
+    "row": "Financial derivatives 98,114",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(22,436) – 1,902 132,870",
+    "bbox": [
+     170.7,
+     298.3,
+     333.3,
+     305.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 6,
+    "row": "Financial derivatives 98,114",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "–",
+    "bbox": [
+     393.5,
+     298.3,
+     397.3,
+     305.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 7,
+    "row": "Financial derivatives 98,114",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "–",
+    "bbox": [
+     440.5,
+     298.3,
+     444.3,
+     305.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 8,
+    "row": "Financial derivatives 98,114",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "– 210,450",
+    "bbox": [
+     480.5,
+     298.3,
+     534.3,
+     305.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 9,
+    "row": "9,154,896",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(287,834) 314,704 (3,851) 132,870",
+    "bbox": [
+     166.8,
+     342.0,
+     333.3,
+     349.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 10,
+    "row": "9,154,896",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(1,885)",
+    "bbox": [
+     372.8,
+     342.0,
+     400.2,
+     349.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 11,
+    "row": "9,154,896",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "1,022,659",
+    "bbox": [
+     405.9,
+     342.0,
+     444.3,
+     349.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 12,
+    "row": "9,154,896",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(17,090) 10,314,469",
+    "bbox": [
+     456.0,
+     342.0,
+     534.5,
+     349.5
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 13,
+    "row": "Subtotal",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "31",
+    "bbox": [
+     524.4,
+     380.8,
+     534.0,
+     388.3
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 14,
+    "row": "Loans and borrowings",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "9,529,084 (868,725) 344,509",
+    "bbox": [
+     178.9,
+     448.9,
+     322.3,
+     456.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 15,
+    "row": "Loans and borrowings",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(47,354)",
+    "bbox": [
+     347.4,
+     448.9,
+     378.2,
+     456.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 16,
+    "row": "Loans and borrowings",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "–",
+    "bbox": [
+     424.5,
+     448.9,
+     428.3,
+     456.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 17,
+    "row": "Loans and borrowings",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "37,548 8,995,062",
+    "bbox": [
+     455.9,
+     448.9,
+     534.3,
+     456.4
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 18,
+    "row": "Financial derivatives",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "121,126 23,254 –",
+    "bbox": [
+     185.6,
+     477.3,
+     322.3,
+     484.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 19,
+    "row": "Financial derivatives",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "819",
+    "bbox": [
+     361.0,
+     477.3,
+     375.3,
+     484.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 20,
+    "row": "Financial derivatives",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(47,085)",
+    "bbox": [
+     400.6,
+     477.3,
+     431.2,
+     484.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 21,
+    "row": "Financial derivatives",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "– 98,114",
+    "bbox": [
+     477.5,
+     477.3,
+     534.3,
+     484.8
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 22,
+    "row": "Subtotal",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "9,710,341 (844,575) 345,394",
+    "bbox": [
+     179.3,
+     505.6,
+     322.3,
+     513.1
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 23,
+    "row": "Subtotal",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(47,350)",
+    "bbox": [
+     347.5,
+     505.6,
+     378.2,
+     513.1
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 24,
+    "row": "Subtotal",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "(47,085)",
+    "bbox": [
+     400.6,
+     505.6,
+     431.2,
+     513.1
+    ],
+    "check": "camelot only"
+   },
+   {
+    "id": 25,
+    "row": "Subtotal",
+    "column": "Loans And Borrowings (continued) | Reconciliation of movements of liabilities to cash flows arising from financing activities | Non-cash changes | Reclassification Acquisition",
+    "value": "38,171 9,154,896",
+    "bbox": [
+     455.6,
+     505.6,
+     534.3,
+     513.1
+    ],
+    "check": "camelot only"
+   }
+  ]
+ },
+ {
+  "table": "p184/b8",
+  "page": 184,
+  "title": "Segment information",
+  "verified": false,
+  "notes": "",
+  "extractor_status": {
+   "textlayer": "ok",
+   "camelot": "ok"
+  },
+  "check_image": "eval/table_check/p184_b8.png",
+  "cells": [
+   {
+    "id": 0,
+    "row": "Gross revenue",
+    "column": "Integrated | Retail | $’000",
+    "value": "607,767",
+    "bbox": [
+     305.0,
+     532.4,
+     341.6,
+     541.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 1,
+    "row": "Gross revenue",
+    "column": "Integrated | Office | $’000",
+    "value": "525,275",
+    "bbox": [
+     372.0,
+     532.4,
+     409.6,
+     541.7
+    ],
+    "check": "disagree: textlayer: Gross revenue | Integrated | Office | $’000 / camelot: Gross revenue | Integrated | Office | Developments | $’000"
+   },
+   {
+    "id": 2,
+    "row": "Gross revenue",
+    "column": "Integrated | Developments | $’000",
+    "value": "486,132",
+    "bbox": [
+     439.4,
+     532.4,
+     477.6,
+     541.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 3,
+    "row": "Gross revenue",
+    "column": "Integrated | Group | $’000",
+    "value": "1,619,174",
+    "bbox": [
+     503.3,
+     532.4,
+     548.5,
+     541.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 4,
+    "row": "Interest and other income",
+    "column": "Integrated | Group | $’000",
+    "value": "6,781",
+    "bbox": [
+     522.8,
+     589.1,
+     548.5,
+     598.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 5,
+    "row": "Finance costs",
+    "column": "Integrated | Group | $’000",
+    "value": "(314,704)",
+    "bbox": [
+     507.4,
+     617.5,
+     552.1,
+     626.7
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 6,
+    "row": "Other unallocated expenses",
+    "column": "Integrated | Group | $’000",
+    "value": "(11,574)",
+    "bbox": [
+     514.0,
+     645.8,
+     552.1,
+     655.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 7,
+    "row": "Share of results (net of tax) of joint ventures",
+    "column": "Integrated | Group | $’000",
+    "value": "116,753",
+    "bbox": [
+     511.1,
+     674.2,
+     548.5,
+     683.4
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 8,
+    "row": "Net change in fair value of investment properties",
+    "column": "Integrated | Retail | $’000",
+    "value": "24,220",
+    "bbox": [
+     309.2,
+     713.6,
+     341.6,
+     722.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 9,
+    "row": "Net change in fair value of investment properties",
+    "column": "Integrated | Office | $’000",
+    "value": "(30,982)",
+    "bbox": [
+     374.3,
+     713.6,
+     413.2,
+     722.8
+    ],
+    "check": "disagree: textlayer: Net change in fair value of investment properties | Integrated | Office | $’000 / camelot: Net change in fair value of investment properties | Integrated | Office | Developments | $’000"
+   },
+   {
+    "id": 10,
+    "row": "Net change in fair value of investment properties",
+    "column": "Integrated | Developments | $’000",
+    "value": "74,879",
+    "bbox": [
+     446.1,
+     713.6,
+     477.6,
+     722.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 11,
+    "row": "Net change in fair value of investment properties",
+    "column": "Integrated | Group | $’000",
+    "value": "68,117",
+    "bbox": [
+     516.7,
+     713.6,
+     548.5,
+     722.8
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 12,
+    "row": "Total return for the year before tax",
+    "column": "Integrated | Group | $’000",
+    "value": "958,604",
+    "bbox": [
+     510.1,
+     741.9,
+     548.5,
+     751.1
+    ],
+    "check": "agree"
+   },
+   {
+    "id": 13,
+    "row": "Total return for the year",
+    "column": "Integrated | Group | $’000",
+    "value": "951,424",
+    "bbox": [
+     510.1,
+     770.2,
+     548.5,
+     779.5
+    ],
+    "check": "agree"
+   }
+  ]
+ }
+]

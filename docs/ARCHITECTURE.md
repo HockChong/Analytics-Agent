@@ -653,3 +653,39 @@ order can be a neighbouring chart title. Permission labels from `config/permissi
   HASH_MISMATCH (live data unchanged) → REMOVED (partition retired). Adding the market
   review as a second document parsed and published only that document, and the annual
   report's rows kept their original `run_id`.
+
+### 16.9 Table extractor benchmark (set up; waiting on the verified answer key)
+Libraries tried on PDF pages 5 and 106 without a model download:
+- **pdfplumber `extract_tables`:** ruled-line mode finds nothing (the tables use dotted
+  lines). Text mode splits words across columns.
+- **PyMuPDF `find_tables`:** finds the structure but **scrambles the numbers**
+  ("1,305.1" → `13051 , .`). A table that looks right with wrong numbers: the reason
+  numbers are checked in code (§7.2).
+- **Camelot stream:** clean grids, but it needs to be told where the table is. On a whole
+  page it mixes chart labels into the table.
+
+As a result, `table_rebuild.py` has a switchable grid step (`parse.table_extractor:
+textlayer | camelot`). Locating the table and the rules on top are shared. Camelot gets
+the same region and defines rows and column boundaries; words and bboxes still come from
+the text layer. The benchmark therefore measures one thing: who gets the grid right.
+
+Two fixes came out of comparing them. The self-check counted "Subtotal" (the label for
+rows that had none) as a real label, so the portfolio valuation table (p23), where every
+property name had been lost, passed as structured. And Camelot's separate Note column is
+now recognised by its last header word.
+
+Whole report after the fixes: text layer 47 ok + 20 partial = 67 structured; Camelot
+40 + 16 = 56. **They succeed on different tables** (Camelot gets p23, p25 and p154; the
+text layer gets p27).
+
+**Answer key:** `eval/tables_gold.json`, 10 tables and 216 cells, drafted by
+`eval/prefill_tables_gold.py` and **to be verified by hand** (`eval/TABLES_GOLD.md`).
+Scored on the unverified draft, each extractor gets close to 100% on what it found
+itself, including Camelot's header "31" counted as a value. That shows why a key drafted
+by the system is not evidence. `eval/score_tables.py` scores only verified tables and
+counts wrong row / wrong column / wrong value separately from missing, because a number
+attributed to the wrong year is worse than no number.
+
+Next, after verification: score both extractors, then consider "run both, keep the one
+that passes the self-check", and add MinerU basic and Docling once the Hugging Face hosts
+are allowed.
